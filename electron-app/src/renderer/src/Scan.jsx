@@ -87,7 +87,7 @@ const Scan = () => {
     setMessage("");
     setError("");
 
-    if (!directory || !projectName) {
+    if (!directory ) {
       setError("Both directory and project name are required.");
       return;
     }
@@ -99,13 +99,12 @@ const Scan = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ directory, projectName }),
+        body: JSON.stringify({ directory }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        setMessage(data.message);
-        handleRetrieve(); // Automatically retrieve results after scanning
+        handleRetrieve(data.message); // Automatically retrieve results after scanning
       } else {
         setError("Unexpected response from the server.");
       }
@@ -116,13 +115,13 @@ const Scan = () => {
     }
   };
 
-  const handleRetrieve = async () => {
+  const handleRetrieve = async (a) => {
     setMessage("");
     setError("");
     setLoading(true);
 
     try {
-      const response = await fetch(`http://localhost:8080/scans/${projectName}`, {
+      const response = await fetch(`http://localhost:8080/scans/${a}`, {
         method: "GET",
       });
 

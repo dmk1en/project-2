@@ -2,19 +2,23 @@ import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-
+import fs from 'fs/promises';
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    fullscreen: false,
-    width: 800,
-    height: 600,
+    width: 1280,  // Increased from 800
+    height: 800,  // Increased from 600
+    minWidth: 1024,
+    minHeight: 768,
     show: false,
     autoHideMenuBar: true,
+    backgroundColor: '#f3f4f6', // Matches bg-gray-100
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      nodeIntegration: true,
+      contextIsolation: false
     }
   })
 
@@ -46,6 +50,17 @@ ipcMain.handle('select-folder', async () => {
   }
   return result.filePaths[0] // Return the selected folder path
 })
+
+// Handle save dialog
+ipcMain.handle("show-save-dialog", async (event, options) => {
+  const result = await dialog.showSaveDialog(options);
+  return result;
+});
+
+// Handle file writing
+ipcMain.handle("write-file", async (event, filePath, content) => {
+  await fs.writeFile(filePath, content, "utf-8");
+});
 
 
 // This method will be called when Electron has finished

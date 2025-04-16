@@ -46,15 +46,14 @@ func getMongoCollection() *mongo.Collection {
 }
 
 type ScanRequest struct {
-	Directory   string `json:"directory"`
-	ProjectName string `json:"projectName"`
+	Directory string `json:"directory"`
 }
 
 type ScanResponse struct {
 	Message string `json:"message"`
 }
 
-func scanFolder(directory, projectName string) (string, error) {
+func scanFolder(directory string) (string, error) {
 	files, err := os.ReadDir(directory)
 	if err != nil {
 		return "", err
@@ -67,8 +66,7 @@ func scanFolder(directory, projectName string) (string, error) {
 			if err := runCommand(directory, command); err != nil {
 				return "", fmt.Errorf("error running command for %s: %v", file.Name(), err)
 			}
-			processSBOM(directory, projectName, scanID)
-			return "Scan completed successfully.", nil
+			return processSBOM(directory, scanID)
 		}
 	}
 
@@ -92,22 +90,35 @@ func runCommand(directory, command string) error {
 	return cmd.Run()
 }
 
-func processSBOM(directory, projectName, scanID string) {
+func processSBOM(directory, scanID string) (string, error) {
 	data, err := os.ReadFile(directory + "/sbom.json")
 	if err != nil {
 		log.Printf("Error reading SBOM file: %v", err)
-		return
+		return "", err
 	}
 
 	var sbomData map[string]interface{}
 	if err := json.Unmarshal(data, &sbomData); err != nil {
 		log.Printf("Error parsing SBOM JSON: %v", err)
-		return
+		return "", err
 	}
 
-	//vulnData := analyzeVulnerabilities(directory)
-	//storeToMongo(projectName, scanID, string(data), string(vulnData))
-	storeToMongo(projectName, scanID, sbomData)
+	// Extract projectName from metadata.component.name
+	var projectName string
+	if metadata, ok := sbomData["metadata"].(map[string]interface{}); ok {
+		if component, ok := metadata["component"].(map[string]interface{}); ok {
+			if name, ok := component["name"].(string); ok {
+				projectName = name
+			}
+		}
+	}
+
+	if projectName == "" {
+		log.Println("Project name not found in SBOM metadata.")
+		return "", fmt.Errorf("project name not found in SBOM metadata")
+	}
+
+	return storeToMongo(projectName, scanID, sbomData)
 }
 
 // func analyzeVulnerabilities(directory string) []byte {
@@ -140,7 +151,7 @@ func processSBOM(directory, projectName, scanID string) {
 // 	}
 // }
 
-func storeToMongo(projectName, scanID string, sbomData map[string]interface{}) {
+func storeToMongo(projectName, scanID string, sbomData map[string]interface{}) (string, error) {
 	collection := getMongoCollection()
 	_, err := collection.InsertOne(context.TODO(), bson.M{
 		"project_name": projectName,
@@ -148,9 +159,7 @@ func storeToMongo(projectName, scanID string, sbomData map[string]interface{}) {
 		"timestamp":    time.Now(),
 		"sbom":         sbomData,
 	})
-	if err != nil {
-		log.Printf("Error storing to MongoDB: %v", err)
-	}
+	return projectName, err
 }
 
 func scanHandler(c *gin.Context) {
@@ -160,16 +169,12 @@ func scanHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request format", "details": err.Error()})
 		return
 	}
-
-	log.Printf("Received request: %+v", request)
-	log.Printf("Directory: %s, Project Name: %s", request.Directory, request.ProjectName)
-
-	if request.Directory == "" || request.ProjectName == "" {
+	if request.Directory == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Directory and Project Name are required"})
 		return
 	}
 
-	message, err := scanFolder(request.Directory, request.ProjectName)
+	message, err := scanFolder(request.Directory)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
