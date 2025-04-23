@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import DependencyNode from "./DependencyNode";
-import { preprocessDependencies } from "./utils";
+import { preprocessDependencies, preprocessVuln } from "./utils";
+
 
 const ResultPage = ({ handleRetrieve, loading, error, message }) => {
   const [record, setRecord] = useState(null);
+  const [vulnerabilities, setVulnerabilities] = useState([]);
+  const [selectedVulnId, setSelectedVulnId] = useState(null);
   const location = useLocation();
+  const vulnerabilityRefs = useRef({}); 
 
   // Extract projectName from query parameters
   const queryParams = new URLSearchParams(location.search);
@@ -23,11 +27,62 @@ const ResultPage = ({ handleRetrieve, loading, error, message }) => {
             ? data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))[0]
             : null;
         setRecord(record);
+        
+        // Process vulnerabilities from the SBOM data
+        const vulnerabilities = record ? preprocessVuln(record) : [];
+        setVulnerabilities(vulnerabilities);
+
+        // Initialize refs for vulnerabilities
+        const refs = {};
+        vulnerabilities.forEach((vuln) => {
+          refs[vuln.id] = React.createRef();
+        });
+        vulnerabilityRefs.current = refs;
       }
     };
 
     fetchData();
   }, [projectName, handleRetrieve]);
+
+  // Function to get severity color
+  const getSeverityColor = (severity) => {
+    switch (severity.toLowerCase()) {
+      case 'critical':
+        return 'bg-red-700 text-white';
+      case 'high':
+        return 'bg-red-500 text-white';
+      case 'medium':
+        return 'bg-yellow-500 text-white';
+      case 'low':
+        return 'bg-blue-500 text-white';
+      default:
+        return 'bg-gray-500 text-white';
+    }
+  };
+
+  // Function to handle vulnerability badge click
+  const handleVulnClick = (vulnId) => {
+    setSelectedVulnId(vulnId); // Set the selected vulnerability
+    const ref = vulnerabilityRefs.current[vulnId];
+    if (ref && ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth", block: "center" });
+  
+      // Delay the "pop" effect to ensure it happens after scrolling
+      setTimeout(() => {
+        ref.current.classList.add("scale-105", "shadow-lg", "transition-transform", "duration-200");
+        setTimeout(() => {
+          ref.current.classList.remove("scale-105", "shadow-lg");
+        }, 300); // Remove the effect after 300ms
+      }, 800); // Delay the effect by 300ms to allow scrolling to complete
+    }
+  };
+
+  // Function to check if a component has vulnerabilities
+  const getComponentVulnerabilities = (component) => {
+    return vulnerabilities.filter(vuln => 
+      vuln.package === component.name && vuln.version === component.version
+    );
+  };
 
   // Function to export SBOM as JSON
   const handleExportSBOM = async () => {
@@ -77,6 +132,37 @@ const ResultPage = ({ handleRetrieve, loading, error, message }) => {
             </div>
           </div>
 
+          {/* Vulnerability Summary */}
+          {vulnerabilities.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-xl font-bold mb-3">Vulnerability Summary</h3>
+              <div className="flex space-x-4 mb-4">
+                <div
+                  className={`px-3 py-1 rounded ${getSeverityColor("critical")}`}
+                >
+                  Critical:{" "}
+                  {vulnerabilities.filter((v) => v.severity === "critical").length}
+                </div>
+                <div
+                  className={`px-3 py-1 rounded ${getSeverityColor("high")}`}
+                >
+                  High: {vulnerabilities.filter((v) => v.severity === "high").length}
+                </div>
+                <div
+                  className={`px-3 py-1 rounded ${getSeverityColor("medium")}`}
+                >
+                  Medium:{" "}
+                  {vulnerabilities.filter((v) => v.severity === "medium").length}
+                </div>
+                <div
+                  className={`px-3 py-1 rounded ${getSeverityColor("low")}`}
+                >
+                  Low: {vulnerabilities.filter((v) => v.severity === "low").length}
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Export SBOM Button */}
           <div className="mb-6">
             <button
@@ -87,86 +173,152 @@ const ResultPage = ({ handleRetrieve, loading, error, message }) => {
             </button>
           </div>
 
-        {/* Components Section */}
-        <div className="mb-6">
-          <h3 className="text-xl font-bold mb-3">Components</h3>
-          {Array.isArray(record.sbom.components) && record.sbom.components.length > 0 ? (
-            <div className="overflow-x-auto max-h-64 border rounded-lg">
-              <table className="min-w-full border">
-                <thead className="bg-gray-100 sticky top-0 z-10">
-                  <tr>
-                    <th className="border px-4 py-2 text-left">Name</th>
-                    <th className="border px-4 py-2 text-left">Version</th>
-                    <th className="border px-4 py-2 text-left">Type</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {record.sbom.components.map((item, i) => (
-                    <tr key={i} className="border-t hover:bg-gray-50">
-                      <td className="border px-4 py-2">{item.name || "N/A"}</td>
-                      <td className="border px-4 py-2">{item.version || "N/A"}</td>
-                      <td className="border px-4 py-2">{item.type || "N/A"}</td>
+          {/* Components Section with Vulnerabilities */}
+          <div className="mb-6">
+            <h3 className="text-xl font-bold mb-3">Components</h3>
+            {Array.isArray(record.sbom.components) && record.sbom.components.length > 0 ? (
+              <div className="overflow-x-auto max-h-96 border rounded-lg">
+                <table className="min-w-full border">
+                  <thead className="bg-gray-100 sticky top-0 z-10">
+                    <tr>
+                      <th className="border px-4 py-2 text-left">Name</th>
+                      <th className="border px-4 py-2 text-left">Version</th>
+                      <th className="border px-4 py-2 text-left">Type</th>
+                      <th className="border px-4 py-2 text-left">Vulnerabilities</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <p className="text-gray-500 italic">No components data available</p>
-          )}
-        </div>
+                  </thead>
+                  <tbody>
+                    {record.sbom.components.map((item, i) => {
+                      const componentVulns = getComponentVulnerabilities(item);
+                      return (
+                        <tr
+                          key={i}
+                          className={`border-t hover:bg-gray-50 ${
+                            componentVulns.length > 0 ? "bg-red-50" : ""
+                          }`}
+                        >
+                          <td className="border px-4 py-2">{item.name || "N/A"}</td>
+                          <td className="border px-4 py-2">{item.version || "N/A"}</td>
+                          <td className="border px-4 py-2">{item.type || "N/A"}</td>
+                          <td className="border px-4 py-2">
+                            {componentVulns.length > 0 ? (
+                              <div className="space-y-2">
+                                {componentVulns.map((vuln, idx) => (
+                                  <div
+                                    key={idx}
+                                    className={`px-2 py-1 rounded text-sm ${getSeverityColor(
+                                      vuln.severity
+                                    )} cursor-pointer`}
+                                    title={vuln.description}
+                                    onClick={() => handleVulnClick(vuln.id)} // Scroll to vulnerability
+                                  >
+                                    {vuln.id} - {vuln.severity}
+                                  </div>
+                                ))}
+                              </div>
+                            ) : (
+                              <span className="text-gray-500">None</span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <p className="text-gray-500 italic">No components data available</p>
+            )}
+          </div>
 
-        {/* Dependencies Section */}
-        <div className="mb-6">
-          <h3 className="text-xl font-bold mb-3">Dependencies</h3>
-          {Array.isArray(record.sbom.dependencies) && record.sbom.dependencies.length > 0 ? (
-            <div className="overflow-x-auto max-h-64 border rounded-lg">
-              <table className="min-w-full border">
-                <thead className="bg-gray-100 sticky top-0 z-10">
-                  <tr>
-                    <th className="border px-4 py-2 text-left">Reference</th>
-                    <th className="border px-4 py-2 text-left">Depends On</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {record.sbom.dependencies.map((item, i) => (
-                    <tr key={i} className="border-t hover:bg-gray-50">
-                      <td className="border px-4 py-2">{item.ref || "N/A"}</td>
-                      <td className="border px-4 py-2">
-                        {Array.isArray(item.dependsOn) && item.dependsOn.length > 0 ? (
-                          <ul className="list-disc list-inside">
-                            {item.dependsOn.map((dependency, index) => (
-                              <li key={index}>{dependency}</li>
-                            ))}
-                          </ul>
-                        ) : (
-                          "N/A"
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          {/* Vulnerabilities Details Section */}
+          {vulnerabilities.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-xl font-bold mb-3">Vulnerability Details</h3>
+              <div className="border rounded-lg overflow-hidden max-h-96 overflow-y-auto">
+                {vulnerabilities.map((vuln, index) => (
+                  <div
+                    key={index}
+                    ref={vulnerabilityRefs.current[vuln.id]} // Attach ref to each vulnerability
+                    className={`p-4 border-b ${
+                      getSeverityColor(vuln.severity)
+                    } ${
+                      selectedVulnId === vuln.id
+                        ? "ring-2 ring-blue-500"
+                        : ""
+                    }`}
+                  >
+                    <div className="font-bold">
+                      {vuln.id} - {vuln.package}@{vuln.version}
+                    </div>
+                    <div className="text-sm opacity-90">{vuln.description}</div>
+                    <div className="text-xs mt-1">Severity: {vuln.severity}</div>
+                  </div>
+                ))}
+              </div>
             </div>
-          ) : (
-            <p className="text-gray-500 italic">No dependencies data available</p>
           )}
-        </div>
-        
+
+          {/* Dependencies Section */}
+          <div className="mb-6">
+            <h3 className="text-xl font-bold mb-3">Dependencies</h3>
+            {Array.isArray(record.sbom.dependencies) && record.sbom.dependencies.length > 0 ? (
+              <div className="overflow-x-auto max-h-64 border rounded-lg">
+                <table className="min-w-full border">
+                  <thead className="bg-gray-100 sticky top-0 z-10">
+                    <tr>
+                      <th className="border px-4 py-2 text-left">Reference</th>
+                      <th className="border px-4 py-2 text-left">Depends On</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {record.sbom.dependencies.map((item, i) => (
+                      <tr key={i} className="border-t hover:bg-gray-50">
+                        <td className="border px-4 py-2">{item.ref || "N/A"}</td>
+                        <td className="border px-4 py-2">
+                          {Array.isArray(item.dependsOn) && item.dependsOn.length > 0 ? (
+                            <ul className="list-disc list-inside">
+                              {item.dependsOn.map((dependency, index) => (
+                                <li key={index}>{dependency}</li>
+                              ))}
+                            </ul>
+                          ) : (
+                            "N/A"
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <p className="text-gray-500 italic">No dependencies data available</p>
+            )}
+          </div>
 
           {/* Dependencies Tree Section */}
           <div>
             <h3 className="text-xl font-bold mb-3">Dependencies Tree</h3>
-            {Array.isArray(record.sbom.dependencies) && record.sbom.dependencies.length > 0 ? (
+            {Array.isArray(record.sbom.dependencies) &&
+            record.sbom.dependencies.length > 0 ? (
               <div className="border rounded p-4 bg-gray-50">
-                {preprocessDependencies(record.sbom.dependencies).map((dependency, i) => (
-                  <DependencyNode key={i} dependency={dependency} />
-                ))}
+                {preprocessDependencies(record.sbom.dependencies).map(
+                  (dependency, i) => (
+                    <DependencyNode
+                      key={i}
+                      dependency={dependency}
+                      vulnerabilities={vulnerabilities}
+                      onVulnClick={handleVulnClick} // Pass click handler to DependencyNode
+                    />
+                  )
+                )}
               </div>
             ) : (
               <p className="text-gray-500 italic">No dependencies tree available</p>
             )}
           </div>
+
+
         </div>
       ) : (
         <div className="border rounded-lg p-8 text-center bg-white">
