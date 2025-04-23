@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Sidebar = ({ loading }) => {
   return (
     <div className="w-64 bg-gray-800 text-white p-4 flex-shrink-0">
-      <h1 className="text-xl font-bold mb-6">Code Scanner</h1>
+      <h1 className="text-xl font-bold mb-6">SBOM Scanner</h1>
       <nav className="space-y-2">
         <Link
           to="/"

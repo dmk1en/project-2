@@ -9,6 +9,8 @@ import (
 	"os"
 	"os/exec"
 	"os/signal"
+	"runtime"
+	"strings"
 	"time"
 
 	// Import CORS package
@@ -54,8 +56,24 @@ type ScanResponse struct {
 }
 
 func scanFolder(directory string) (string, error) {
+
+	// Check the operating system
+	if runtime.GOOS == "linux" {
+		// Convert Windows path to WSL path if running in WSL
+		cmd := exec.Command("wslpath", directory)
+		output, err := cmd.Output()
+		if err != nil {
+			return "", fmt.Errorf("failed to convert path: %v", err)
+		}
+		directory = strings.TrimSpace(string(output)) // Use the converted WSL path
+	} else {
+		log.Printf("Using directory path as is for OS: %s", runtime.GOOS)
+	}
+
+	// Continue with the rest of the function
 	files, err := os.ReadDir(directory)
 	if err != nil {
+		log.Printf("Error reading directory: %v", err)
 		return "", err
 	}
 
@@ -63,7 +81,19 @@ func scanFolder(directory string) (string, error) {
 
 	for _, file := range files {
 		if command, exists := sbomTools[file.Name()]; exists {
+			if file.Name() == "package.json" {
+				log.Printf("Found package.json. Ensuring dependencies are installed in directory: %s", directory)
+				// npmInstallCmd := exec.Command("npm", "install")
+				// npmInstallCmd.Dir = directory
+				// npmInstallCmd.Stdout = os.Stdout
+				// npmInstallCmd.Stderr = os.Stderr
+				// if err := npmInstallCmd.Run(); err != nil {
+				// 	log.Printf("Error running npm install: %v", err)
+				// 	return "", fmt.Errorf("failed to install dependencies: %v", err)
+				// }
+			}
 			if err := runCommand(directory, command); err != nil {
+				log.Printf("Error running command: %v", err)
 				return "", fmt.Errorf("error running command for %s: %v", file.Name(), err)
 			}
 			return processSBOM(directory, scanID)
@@ -72,7 +102,6 @@ func scanFolder(directory string) (string, error) {
 
 	return "No supported dependency files found.", nil
 }
-
 func runCommand(directory, command string) error {
 	var cmd *exec.Cmd
 
@@ -86,6 +115,7 @@ func runCommand(directory, command string) error {
 	cmd.Dir = directory
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
+	log.Printf("Running command: %s in directory: %s", command, directory)
 
 	return cmd.Run()
 }
@@ -103,7 +133,6 @@ func processSBOM(directory, scanID string) (string, error) {
 		return "", err
 	}
 
-	// Extract projectName from metadata.component.name
 	var projectName string
 	if metadata, ok := sbomData["metadata"].(map[string]interface{}); ok {
 		if component, ok := metadata["component"].(map[string]interface{}); ok {
@@ -118,24 +147,60 @@ func processSBOM(directory, scanID string) (string, error) {
 		return "", fmt.Errorf("project name not found in SBOM metadata")
 	}
 
-	return storeToMongo(projectName, scanID, sbomData)
+	vulns, err := analyzeVulnerabilities(directory)
+	if err != nil {
+		log.Printf("No vulnerabilities found or Grype error: %v", err)
+		vulns = nil
+	}
+
+	// Generate the report
+	report, err := generateDetailedReport(projectName, scanID, vulns)
+	if err != nil {
+		log.Printf("Error generating report: %v", err)
+		return "", err
+	}
+
+	// Save the report to a file
+	filename := fmt.Sprintf("%s_report.json", projectName)
+	if err := saveReportToFile(report, filename); err != nil {
+		log.Printf("Error saving report to file: %v", err)
+		return "", err
+	}
+
+	log.Println("SBOM file processed successfully.")
+
+	return storeToMongo(projectName, scanID, sbomData, vulns)
 }
 
-// func analyzeVulnerabilities(directory string) []byte {
-// 	ch := make(chan []byte, 1)
-// 	go func() {
-// 		cmd := exec.Command("grype", directory+"/sbom.json", "-o", "json")
-// 		cmd.Dir = directory
-// 		output, err := cmd.Output()
-// 		if err != nil {
-// 			log.Printf("Error running grype: %v", err)
-// 			ch <- nil
-// 		} else {
-// 			ch <- output
-// 		}
-// 	}()
-// 	return <-ch
-// }
+func analyzeVulnerabilities(directory string) ([]map[string]interface{}, error) {
+	cmd := exec.Command("grype", directory+"/sbom.json", "-o", "json")
+	cmd.Dir = directory
+	cmd.Env = append(os.Environ(),
+		"GRYPE_DB_AUTO_UPDATE=false",
+	)
+	output, err := cmd.Output()
+	if err != nil {
+		log.Printf("Error running grype: %v", err)
+		return nil, err
+	}
+
+	var grypeResult map[string]interface{}
+	if err := json.Unmarshal(output, &grypeResult); err != nil {
+		log.Printf("Error parsing Grype JSON: %v", err)
+		return nil, err
+	}
+
+	if matches, ok := grypeResult["matches"].([]interface{}); ok {
+		var vulns []map[string]interface{}
+		for _, item := range matches {
+			if match, ok := item.(map[string]interface{}); ok {
+				vulns = append(vulns, match)
+			}
+		}
+		return vulns, nil
+	}
+	return nil, fmt.Errorf("no vulnerabilities found")
+}
 
 // func storeToMongo(projectName, scanID, sbomData, vulnData string) {
 // 	collection := getMongoCollection()
@@ -151,13 +216,14 @@ func processSBOM(directory, scanID string) (string, error) {
 // 	}
 // }
 
-func storeToMongo(projectName, scanID string, sbomData map[string]interface{}) (string, error) {
+func storeToMongo(projectName, scanID string, sbomData map[string]interface{}, vulnerabilities []map[string]interface{}) (string, error) {
 	collection := getMongoCollection()
 	_, err := collection.InsertOne(context.TODO(), bson.M{
-		"project_name": projectName,
-		"scan_id":      scanID,
-		"timestamp":    time.Now(),
-		"sbom":         sbomData,
+		"project_name":    projectName,
+		"scan_id":         scanID,
+		"timestamp":       time.Now(),
+		"sbom":            sbomData,
+		"vulnerabilities": vulnerabilities,
 	})
 	return projectName, err
 }
@@ -211,7 +277,7 @@ func main() {
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:5173", "http://localhost:3000"}, // Update based on your frontend URL
+		AllowOrigins:     []string{"http://localhost:5173", "http://localhost:3000"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
