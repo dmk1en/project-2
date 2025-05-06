@@ -26,3 +26,50 @@ export const preprocessDependencies = (dependencies) => {
       (dep) => !dependencies.some((d) => d.dependsOn?.includes(dep.ref))
     );
   };
+
+export const preprocessVuln = (record) => {
+  if (!record || !record.sbom || !record.vulnerabilities) {
+    return [];
+  }
+
+  return record.vulnerabilities.map(vuln => {
+    // Use the related CVE if available, otherwise use the GHSA ID
+    const id = vuln.relatedVulnerabilities?.[0]?.id || vuln.vulnerability.id;
+    
+    // Extract the package name and version from the artifact
+    const packageName = vuln.artifact.name;
+    const version = vuln.artifact.version;
+    
+    // Get severity from the vulnerability data
+    const severity = vuln.vulnerability.severity.toLowerCase();
+    
+    // Use the description from either the main vulnerability or the first related one
+    const description = vuln.vulnerability.description || 
+                       vuln.relatedVulnerabilities?.[0]?.description || 
+                       "No description available";
+
+    const dataSource =  vuln.vulnerability.dataSource || "Unknown";
+
+    const fix = vuln.vulnerability.fix.state
+    let fixVersion = null;
+    if (fix === "fixed"){
+      fixVersion = vuln.vulnerability.fix.versions[0]
+    }
+    else{
+      fixVersion = vuln.vulnerability.fix.state
+    }
+    console.log(fixVersion)
+
+    return {
+      id,
+      package: packageName,
+      version,
+      severity,
+      description,
+      fixVersion,
+      dataSource,
+      // You can add more fields here if needed, like CVSS score
+      cvssScore: vuln.vulnerability.cvss?.[0]?.metrics?.baseScore || null
+    };
+  });
+};
