@@ -48,12 +48,26 @@ export const preprocessVuln = (record) => {
                        vuln.relatedVulnerabilities?.[0]?.description || 
                        "No description available";
 
+    const dataSource =  vuln.vulnerability.dataSource || "Unknown";
+
+    const fix = vuln.vulnerability.fix.state
+    let fixVersion = null;
+    if (fix === "fixed"){
+      fixVersion = vuln.vulnerability.fix.versions[0]
+    }
+    else{
+      fixVersion = vuln.vulnerability.fix.state
+    }
+    console.log(fixVersion)
+
     return {
       id,
       package: packageName,
       version,
       severity,
       description,
+      fixVersion,
+      dataSource,
       // You can add more fields here if needed, like CVSS score
       cvssScore: vuln.vulnerability.cvss?.[0]?.metrics?.baseScore || null
     };

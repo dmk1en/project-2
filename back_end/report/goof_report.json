@@ -1,7 +1,7 @@
 {
   "project_name": "goof",
-  "scan_id": "20250424T014620",
-  "timestamp": "2025-04-24T01:46:27.39723468+07:00",
+  "scan_id": "20250424T001015",
+  "timestamp": "2025-04-24T00:10:22.759186687+07:00",
   "vulnerabilities": [
     {
       "id": "GHSA-3v6h-hqm4-2rg6",

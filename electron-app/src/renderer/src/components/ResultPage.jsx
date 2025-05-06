@@ -8,7 +8,9 @@ const ResultPage = ({ handleRetrieve, loading, error, message }) => {
   const [record, setRecord] = useState(null);
   const [vulnerabilities, setVulnerabilities] = useState([]);
   const [selectedVulnId, setSelectedVulnId] = useState(null);
+  const [showNotFixedOnly, setShowNotFixedOnly] = useState(false);
   const location = useLocation();
+  
   const vulnerabilityRefs = useRef({}); 
 
   // Extract projectName from query parameters
@@ -176,6 +178,18 @@ const ResultPage = ({ handleRetrieve, loading, error, message }) => {
           {/* Components Section with Vulnerabilities */}
           <div className="mb-6">
             <h3 className="text-xl font-bold mb-3">Components</h3>
+            {/* Filter Checkbox */}
+            <div className="mb-4">
+              <label className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  className="form-checkbox"
+                  checked={showNotFixedOnly}
+                  onChange={(e) => setShowNotFixedOnly(e.target.checked)} // Toggle filter state
+                />
+                <span>Show only components with "Not Fixed" vulnerabilities</span>
+              </label>
+            </div>
             {Array.isArray(record.sbom.components) && record.sbom.components.length > 0 ? (
               <div className="overflow-x-auto max-h-96 border rounded-lg">
                 <table className="min-w-full border">
@@ -185,10 +199,19 @@ const ResultPage = ({ handleRetrieve, loading, error, message }) => {
                       <th className="border px-4 py-2 text-left">Version</th>
                       <th className="border px-4 py-2 text-left">Type</th>
                       <th className="border px-4 py-2 text-left">Vulnerabilities</th>
+                      <th className="border px-4 py-2 text-left">Fix Version</th> {/* New Fix Version Column */}
                     </tr>
                   </thead>
                   <tbody>
-                    {record.sbom.components.map((item, i) => {
+                    {record.sbom.components
+                    .filter((item) => {
+                      if (!showNotFixedOnly) return true; // Show all if filter is off
+                      const componentVulns = getComponentVulnerabilities(item);
+                      return componentVulns.some(
+                        (vuln) => vuln.fixVersion === "not-fixed"
+                      ); // Show only components with "not-fixed" vulnerabilities
+                    })
+                    .map((item, i) => {
                       const componentVulns = getComponentVulnerabilities(item);
                       return (
                         <tr
@@ -220,6 +243,28 @@ const ResultPage = ({ handleRetrieve, loading, error, message }) => {
                               <span className="text-gray-500">None</span>
                             )}
                           </td>
+                          <td className="border px-4 py-2">
+                            {componentVulns.length > 0 ? (
+                              <ul className="list-disc list-inside">
+                                {componentVulns.map((vuln, idx) => (
+                                  <li
+                                    key={idx}
+                                    className={vuln.fixVersion == "not-fixed" ? "text-red-600" : "text-green-600"} 
+                                    title={
+                                      vuln.fixVersion === "not-fixed"
+                                        ? "Consider removing this library."
+                                        : `Update to version ${vuln.fixVersion}.`
+                                    } // Tooltip guidance
+                                  >
+                                    
+                                    {vuln.fixVersion || "Not Fixed"}
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : (
+                              <span className="text-gray-500">N/A</span> 
+                            )}
+                          </td>
                         </tr>
                       );
                     })}
@@ -238,16 +283,24 @@ const ResultPage = ({ handleRetrieve, loading, error, message }) => {
               <div className="border rounded-lg overflow-hidden max-h-96 overflow-y-auto">
                 {vulnerabilities.map((vuln, index) => (
                   <div
-                    key={index}
-                    ref={vulnerabilityRefs.current[vuln.id]} // Attach ref to each vulnerability
-                    className={`p-4 border-b ${
-                      getSeverityColor(vuln.severity)
-                    } ${
-                      selectedVulnId === vuln.id
-                        ? "ring-2 ring-blue-500"
-                        : ""
-                    }`}
-                  >
+                  key={index}
+                  ref={vulnerabilityRefs.current[vuln.id]} // Attach ref to each vulnerability
+                  className={`p-4 border-b ${
+                    getSeverityColor(vuln.severity)
+                  } ${
+                    selectedVulnId === vuln.id
+                      ? "ring-2 ring-blue-500"
+                      : ""
+                  } cursor-pointer`} // Add cursor-pointer for clickable styling
+                  onClick={() => {
+                    if (vuln.dataSource) {
+                      window.open(vuln.dataSource, "_blank"); // Open dataSource in a new tab
+                    } else {
+                      alert("No data source available for this vulnerability.");
+                    }
+                  }}
+                  title={vuln.dataSource || "No data source available"} // Tooltip with dataSource
+                >
                     <div className="font-bold">
                       {vuln.id} - {vuln.package}@{vuln.version}
                     </div>
