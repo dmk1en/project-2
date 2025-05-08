@@ -58,7 +58,6 @@ export const preprocessVuln = (record) => {
     else{
       fixVersion = vuln.vulnerability.fix.state
     }
-    console.log(fixVersion)
 
     return {
       id,

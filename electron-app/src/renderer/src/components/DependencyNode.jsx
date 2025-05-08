@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-const DependencyNode = ({ dependency, vulnerabilities = [], depth = 0, onVulnClick }) => {
+const DependencyNode = ({
+  dependency,
+  vulnerabilities = [],
+  depth = 0,
+  onComponentClick
+}) => {
   const [isExpanded, setIsExpanded] = useState(false);
-
-  useEffect(() => {
-    // Automatically expand if the dependency has vulnerabilities
-    const vulns = getComponentVulnerabilities(dependency.ref);
-    if (vulns.length > 0) {
-      setIsExpanded(true);
-    }
-  }, [dependency]);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
 
   const getSeverityColor = (severity) => {
     switch (severity.toLowerCase()) {
@@ -20,9 +19,9 @@ const DependencyNode = ({ dependency, vulnerabilities = [], depth = 0, onVulnCli
       case "medium":
         return "text-yellow-500 font-bold";
       case "low":
-        return "text-blue-500 font-bold";
+        return "text-green-500 font-bold";
       default:
-        return "text-gray-800";
+        return "text-green-500 font-bold";
     }
   };
 
@@ -39,14 +38,46 @@ const DependencyNode = ({ dependency, vulnerabilities = [], depth = 0, onVulnCli
     );
   };
 
+  const calculateChildVulns = (children) => {
+    let childVulnCount = 0;
+    let totalVulnCount = 0;
+
+    children.forEach((child) => {
+      const childVulns = getComponentVulnerabilities(child.ref);
+      if (childVulns.length > 0) {
+        childVulnCount++;
+        totalVulnCount += childVulns.length;
+      }
+
+      if (child.children && child.children.length > 0) {
+        const childCounts = calculateChildVulns(child.children);
+        childVulnCount += childCounts.childVulnCount;
+        totalVulnCount += childCounts.totalVulnCount;
+      }
+    });
+
+    return { childVulnCount, totalVulnCount };
+  };
+
   const vulns = getComponentVulnerabilities(dependency.ref);
   const hasChildren = dependency.children && dependency.children.length > 0;
 
-  // Determine the severity color based on the highest severity of the vulnerabilities
+  // Calculate child vulnerabilities and total vulnerabilities
+  const { childVulnCount, totalVulnCount } = calculateChildVulns(
+    dependency.children || []
+  );
+
+  const allVulns = [...vulns];
+  dependency.children?.forEach((child) => {
+    const childVulns = getComponentVulnerabilities(child.ref);
+    allVulns.push(...childVulns);
+  });
+
+  // Determine the severity color based on the highest severity of all vulnerabilities
   const severityColor =
-    vulns.length > 0
+    allVulns.length > 0
       ? getSeverityColor(
-          vulns.reduce((highest, vuln) => {
+          allVulns.reduce((highest, vuln) => {
             const severities = ["critical", "high", "medium", "low"];
             return severities.indexOf(vuln.severity) < severities.indexOf(highest)
               ? vuln.severity
@@ -55,13 +86,23 @@ const DependencyNode = ({ dependency, vulnerabilities = [], depth = 0, onVulnCli
         )
       : "text-gray-800";
 
+  const handleRightClick = (e) => {
+    e.preventDefault(); // Prevent the default context menu
+    const componentName = dependency.name || dependency.ref.split("@")[0];
+    onComponentClick(componentName); // Directly navigate to the component section
+  };
+
   return (
     <div className="relative pl-6">
       <div
         className={`flex items-center ${
           hasChildren ? "cursor-pointer hover:bg-gray-50" : ""
         } rounded p-1`}
-        onClick={() => hasChildren && setIsExpanded(!isExpanded)}
+        onClick={() => hasChildren && setIsExpanded(!isExpanded)} // Expand/collapse on left-click
+        onContextMenu={handleRightClick} // Show popup on right-click
+        title={`Child Components with Vulnerabilities: ${childVulnCount}\nTotal Vulnerabilities: ${
+          totalVulnCount + vulns.length
+        }`}
       >
         {hasChildren && (
           <span className="font-bold mr-2 text-gray-500 w-4 flex-shrink-0">
@@ -69,12 +110,9 @@ const DependencyNode = ({ dependency, vulnerabilities = [], depth = 0, onVulnCli
           </span>
         )}
 
-        <span
-          className={`font-medium cursor-pointer ${severityColor}`}
-          onClick={() => vulns.length > 0 && onVulnClick(vulns[0].id)} // Map to the first vulnerability
-        >
-          {dependency.ref}
-        </span>
+          <span className={`font-medium ${severityColor}`}>
+            {dependency.ref}
+          </span>
       </div>
 
       {hasChildren && isExpanded && (
@@ -85,7 +123,7 @@ const DependencyNode = ({ dependency, vulnerabilities = [], depth = 0, onVulnCli
               dependency={child}
               vulnerabilities={vulnerabilities}
               depth={depth + 1}
-              onVulnClick={onVulnClick} // Pass click handler to child nodes
+              onComponentClick={onComponentClick}
             />
           ))}
         </div>
