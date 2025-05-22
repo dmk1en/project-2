@@ -38,26 +38,29 @@ const DependencyNode = ({
     );
   };
 
-  const calculateChildVulns = (children) => {
-    let childVulnCount = 0;
-    let totalVulnCount = 0;
+  const calculateChildVulns = (children, visited = new Set()) => {
+  let childVulnCount = 0;
+  let totalVulnCount = 0;
 
-    children.forEach((child) => {
-      const childVulns = getComponentVulnerabilities(child.ref);
-      if (childVulns.length > 0) {
-        childVulnCount++;
-        totalVulnCount += childVulns.length;
-      }
+  children.forEach((child) => {
+    if (visited.has(child.ref)) return; // Prevent infinite loop on circular deps
+    visited.add(child.ref);
 
-      if (child.children && child.children.length > 0) {
-        const childCounts = calculateChildVulns(child.children);
-        childVulnCount += childCounts.childVulnCount;
-        totalVulnCount += childCounts.totalVulnCount;
-      }
-    });
+    const childVulns = getComponentVulnerabilities(child.ref);
+    if (childVulns.length > 0) {
+      childVulnCount++;
+      totalVulnCount += childVulns.length;
+    }
 
-    return { childVulnCount, totalVulnCount };
-  };
+    if (child.children && child.children.length > 0) {
+      const childCounts = calculateChildVulns(child.children, new Set(visited));
+      childVulnCount += childCounts.childVulnCount;
+      totalVulnCount += childCounts.totalVulnCount;
+    }
+  });
+
+  return { childVulnCount, totalVulnCount };
+};
 
   const vulns = getComponentVulnerabilities(dependency.ref);
   const hasChildren = dependency.children && dependency.children.length > 0;

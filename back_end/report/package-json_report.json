@@ -1,0 +1,93 @@
+{
+  "project_name": "package-json",
+  "scan_id": "20250516T103301",
+  "timestamp": "2025-05-16T10:35:12.832652471+07:00",
+  "vulnerabilities": [
+    {
+      "id": "GHSA-pxg6-pf52-xh8x",
+      "package_name": "cookie",
+      "version": "0.6.0",
+      "severity": "Low",
+      "fix_version": "0.7.0",
+      "description": "cookie accepts cookie name, path, and domain with out of bounds characters",
+      "cve": "CVE-2024-47764",
+      "cvss": 0,
+      "references": [
+        "https://github.com/jshttp/cookie/commit/e10042845354fea83bd8f34af72475eed1dadf5c",
+        "https://github.com/jshttp/cookie/pull/167",
+        "https://github.com/jshttp/cookie/security/advisories/GHSA-pxg6-pf52-xh8x"
+      ],
+      "affected_versions": [
+        "\u003c0.7.0 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-8rmg-jf7p-4p22",
+      "package_name": "gen-mapping",
+      "version": "0.3.8",
+      "severity": "Critical",
+      "fix_version": "",
+      "description": "Malware in gen-mapping",
+      "cve": "",
+      "cvss": 0,
+      "references": null,
+      "affected_versions": [
+        "\u003e=0 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-9c47-m6qq-7p4h",
+      "package_name": "json5",
+      "version": "0.0.29",
+      "severity": "High",
+      "fix_version": "1.0.2",
+      "description": "Prototype Pollution in JSON5 via Parse Method",
+      "cve": "CVE-2022-46175",
+      "cvss": 7.1,
+      "references": [
+        "https://github.com/json5/json5/issues/199",
+        "https://github.com/json5/json5/issues/295",
+        "https://github.com/json5/json5/pull/298",
+        "https://github.com/json5/json5/security/advisories/GHSA-9c47-m6qq-7p4h",
+        "https://lists.debian.org/debian-lts-announce/2023/11/msg00021.html",
+        "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/3S26TLPLVFAJTUN3VIXFDEBEXDYO22CE/",
+        "https://github.com/json5/json5/issues/199",
+        "https://github.com/json5/json5/issues/295",
+        "https://github.com/json5/json5/pull/298",
+        "https://github.com/json5/json5/security/advisories/GHSA-9c47-m6qq-7p4h",
+        "https://lists.debian.org/debian-lts-announce/2023/11/msg00021.html",
+        "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/3S26TLPLVFAJTUN3VIXFDEBEXDYO22CE/"
+      ],
+      "affected_versions": [
+        "\u003c1.0.2 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-xvch-5gv4-984h",
+      "package_name": "minimist",
+      "version": "1.2.5",
+      "severity": "Critical",
+      "fix_version": "1.2.6",
+      "description": "Prototype Pollution in minimist",
+      "cve": "CVE-2021-44906",
+      "cvss": 9.8,
+      "references": [
+        "https://github.com/Marynk/JavaScript-vulnerability-detection/blob/main/minimist%20PoC.zip",
+        "https://github.com/substack/minimist/blob/master/index.js#L69",
+        "https://github.com/substack/minimist/issues/164",
+        "https://security.netapp.com/advisory/ntap-20240621-0006/",
+        "https://snyk.io/vuln/SNYK-JS-MINIMIST-559764",
+        "https://stackoverflow.com/questions/8588563/adding-custom-properties-to-a-function/20278068#20278068",
+        "https://github.com/Marynk/JavaScript-vulnerability-detection/blob/main/minimist%20PoC.zip",
+        "https://github.com/substack/minimist/blob/master/index.js#L69",
+        "https://github.com/substack/minimist/issues/164",
+        "https://security.netapp.com/advisory/ntap-20240621-0006/",
+        "https://snyk.io/vuln/SNYK-JS-MINIMIST-559764",
+        "https://stackoverflow.com/questions/8588563/adding-custom-properties-to-a-function/20278068#20278068"
+      ],
+      "affected_versions": [
+        "\u003e=1.0.0,\u003c1.2.6 (unknown)"
+      ]
+    }
+  ]
+}

@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 const ScanPage = ({ setDirectory, handleScan, loading, recentScans, setRecentScans }) => {
   const [localDirectory, setLocalDirectory] = useState("");
-  const [projectName, setProjectName] = useState(""); // State for project name input
+  const [projectName, setProjectName] = useState("");
+  const [githubUrl, setGithubUrl] = useState("");
   const navigate = useNavigate();
 
   const handleStartScan = async () => {
@@ -34,6 +35,33 @@ const ScanPage = ({ setDirectory, handleScan, loading, recentScans, setRecentSca
     const selectedFolder = await window.electron.ipcRenderer.invoke("select-folder");
     if (selectedFolder) {
       setLocalDirectory(selectedFolder);
+    }
+  };
+
+  const handleGithubScan = async () => {
+  if (!githubUrl) {
+    alert("Please enter a GitHub repo URL");
+    return;
+  }
+  try {
+    const res = await fetch("http://localhost:8080/scan-github", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ repo_url: githubUrl }),
+    });
+    const data = await res.json();
+    if (res.ok && data.message) {
+      setRecentScans((prev = []) => 
+        typeof data.message === "string" && data.message
+          ? [data.message, ...prev.filter((name) => name !== data.message)]
+          : prev
+      );
+      navigate(`/results?projectName=${encodeURIComponent(data.message)}`);
+    } else {
+      alert(data.error || "Scan failed");
+    }
+    } catch (err) {
+      alert("Failed to connect to backend");
     }
   };
 
@@ -84,6 +112,24 @@ const ScanPage = ({ setDirectory, handleScan, loading, recentScans, setRecentSca
             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
           >
             Retrieve Data
+          </button>
+        </div>
+
+        {/* GitHub Repo Scan Section */}
+        <div className="mt-6">
+          <h2 className="text-xl font-bold mb-4">Scan GitHub Repository</h2>
+          <input
+            type="text"
+            value={githubUrl}
+            onChange={(e) => setGithubUrl(e.target.value)}
+            placeholder="Enter GitHub repo URL (e.g. https://github.com/user/repo)"
+            className="w-full border rounded px-4 py-2 mb-4"
+          />
+          <button
+            onClick={handleGithubScan}
+            className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded"
+          >
+            Scan GitHub Repo
           </button>
         </div>
 
