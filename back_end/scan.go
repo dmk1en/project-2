@@ -27,9 +27,13 @@ const (
 	collectionName = "sbom_data"
 )
 
+type GithubScanRequest struct {
+	RepoURL string `json:"repo_url"`
+}
+
 var (
 	sbomTools = map[string]string{
-		"pom.xml":      "mvn org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom -DoutputFormat=json -DoutputFile=sbom.json",
+		"pom.xml":      "mvn org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom -DoutputFormat=json -DoutputDirectory=. -DoutputFile=sbom.json",
 		"package.json": "cyclonedx-npm --output-format json --output-file sbom.json",
 	}
 	mongoClient *mongo.Client
@@ -57,20 +61,20 @@ type ScanResponse struct {
 
 func scanFolder(directory string) (string, error) {
 
-	// Check the operating system
 	if runtime.GOOS == "linux" {
-		// Convert Windows path to WSL path if running in WSL
-		cmd := exec.Command("wslpath", directory)
-		output, err := cmd.Output()
-		if err != nil {
-			return "", fmt.Errorf("failed to convert path: %v", err)
+		// Only convert if the path looks like a Windows path (e.g. D:\ or C:\)
+		if len(directory) > 2 && directory[1] == ':' && (directory[2] == '\\' || directory[2] == '/') {
+			cmd := exec.Command("wslpath", directory)
+			output, err := cmd.Output()
+			if err != nil {
+				return "", fmt.Errorf("failed to convert path: %v", err)
+			}
+			directory = strings.TrimSpace(string(output)) // Use the converted WSL path
 		}
-		directory = strings.TrimSpace(string(output)) // Use the converted WSL path
 	} else {
 		log.Printf("Using directory path as is for OS: %s", runtime.GOOS)
 	}
 
-	// Continue with the rest of the function
 	files, err := os.ReadDir(directory)
 	if err != nil {
 		log.Printf("Error reading directory: %v", err)
@@ -81,27 +85,53 @@ func scanFolder(directory string) (string, error) {
 
 	for _, file := range files {
 		if command, exists := sbomTools[file.Name()]; exists {
-			if file.Name() == "package.json" {
+			switch file.Name() {
+			case "package.json":
 				log.Printf("Found package.json. Ensuring dependencies are installed in directory: %s", directory)
-				// npmInstallCmd := exec.Command("npm", "install")
-				// npmInstallCmd.Dir = directory
-				// npmInstallCmd.Stdout = os.Stdout
-				// npmInstallCmd.Stderr = os.Stderr
-				// if err := npmInstallCmd.Run(); err != nil {
-				// 	log.Printf("Error running npm install: %v", err)
-				// 	return "", fmt.Errorf("failed to install dependencies: %v", err)
-				// }
+				npmInstallCmd := exec.Command("npm", "install")
+				npmInstallCmd.Dir = directory
+				npmInstallCmd.Stdout = os.Stdout
+				npmInstallCmd.Stderr = os.Stderr
+				if err := npmInstallCmd.Run(); err != nil {
+					log.Printf("Error running npm install: %v", err)
+					return "", fmt.Errorf("failed to install npm dependencies: %v", err)
+				}
+			case "pom.xml":
+				log.Printf("Found pom.xml. Ensuring Maven dependencies are installed in directory: %s", directory)
+				mvnInstallCmd := exec.Command("mvn", "install", "-DskipTests")
+				mvnInstallCmd.Dir = directory
+				mvnInstallCmd.Stdout = os.Stdout
+				mvnInstallCmd.Stderr = os.Stderr
+				if err := mvnInstallCmd.Run(); err != nil {
+					log.Printf("Error running mvn install: %v", err)
+					return "", fmt.Errorf("failed to install Maven dependencies: %v", err)
+				}
 			}
+
 			if err := runCommand(directory, command); err != nil {
 				log.Printf("Error running command: %v", err)
 				return "", fmt.Errorf("error running command for %s: %v", file.Name(), err)
 			}
+
+			if file.Name() == "pom.xml" {
+				oldPath := directory + "/bom.json"
+				newPath := directory + "/sbom.json"
+				if _, err := os.Stat(oldPath); err == nil {
+					if err := os.Rename(oldPath, newPath); err != nil {
+						log.Printf("Error renaming bom.json to sbom.json: %v", err)
+						return "", fmt.Errorf("failed to rename bom.json to sbom.json: %v", err)
+					}
+				}
+			}
+
 			return processSBOM(directory, scanID)
+
 		}
 	}
 
 	return "No supported dependency files found.", nil
 }
+
 func runCommand(directory, command string) error {
 	var cmd *exec.Cmd
 
@@ -270,6 +300,53 @@ func retrieveScans(c *gin.Context) {
 	c.JSON(http.StatusOK, results)
 }
 
+func githubScanHandler(c *gin.Context) {
+	var req GithubScanRequest
+	if err := c.ShouldBindJSON(&req); err != nil || req.RepoURL == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid repo URL"})
+		return
+	}
+
+	backendDir, err := os.Getwd()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get backend directory"})
+		return
+	}
+	tmpRoot := backendDir + "/tmp"
+	if _, err := os.Stat(tmpRoot); os.IsNotExist(err) {
+		if err := os.Mkdir(tmpRoot, 0755); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create tmp folder"})
+			return
+		}
+	}
+	tmpDir, err := os.MkdirTemp(tmpRoot, "repo-")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create temp dir"})
+		return
+	}
+
+	// Clone the repo
+	cmd := exec.Command("git", "clone", "--depth=1", req.RepoURL, tmpDir)
+	if err := cmd.Run(); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to clone repo"})
+		return
+	}
+
+	// Run the scan as usual
+	projectName, err := scanFolder(tmpDir)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, ScanResponse{Message: projectName})
+}
+
+func testScanHandler(c *gin.Context) {
+	projectName := "package-json"
+	c.JSON(http.StatusOK, ScanResponse{Message: projectName})
+}
+
 func main() {
 	initMongo()
 	defer mongoClient.Disconnect(context.TODO())
@@ -287,6 +364,8 @@ func main() {
 
 	r.POST("/scan", scanHandler)
 	r.GET("/scans/:project", retrieveScans)
+	r.POST("/scan-github", githubScanHandler)
+	r.GET("/test-scan", testScanHandler)
 
 	server := &http.Server{
 		Addr:    ":8080",

@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import DependencyNode from "./DependencyNode";
 import { preprocessDependencies, preprocessVuln } from "./utils";
+// import BubbleGraph from "./TreeGraph";
+
 
 
 const ResultPage = ({ handleRetrieve, loading, error, message }) => {
@@ -12,6 +14,7 @@ const ResultPage = ({ handleRetrieve, loading, error, message }) => {
   const location = useLocation();
   
   const vulnerabilityRefs = useRef({}); 
+  const componentRefs = useRef({});
 
   // Extract projectName from query parameters
   const queryParams = new URLSearchParams(location.search);
@@ -35,11 +38,18 @@ const ResultPage = ({ handleRetrieve, loading, error, message }) => {
         setVulnerabilities(vulnerabilities);
 
         // Initialize refs for vulnerabilities
-        const refs = {};
+        const vulnRefs = {};
         vulnerabilities.forEach((vuln) => {
-          refs[vuln.id] = React.createRef();
+          vulnRefs[vuln.id] = React.createRef();
         });
-        vulnerabilityRefs.current = refs;
+        vulnerabilityRefs.current = vulnRefs;
+    
+        // Initialize refs for components
+        const compRefs = {};
+        record.sbom.components.forEach((component) => {
+          compRefs[component.name] = React.createRef();
+        });
+        componentRefs.current = compRefs;
       }
     };
 
@@ -71,6 +81,19 @@ const ResultPage = ({ handleRetrieve, loading, error, message }) => {
   
       // Delay the "pop" effect to ensure it happens after scrolling
       setTimeout(() => {
+        ref.current.classList.add("scale-105", "shadow-lg", "transition-transform", "duration-200");
+        setTimeout(() => {
+          ref.current.classList.remove("scale-105", "shadow-lg");
+        }, 300); // Remove the effect after 300ms
+      }, 800); // Delay the effect by 300ms to allow scrolling to complete
+    }
+  };
+
+  const handleComponentClick = (componentName) => {
+    const ref = componentRefs.current[componentName];
+    if (ref && ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth", block: "center" });
+            setTimeout(() => {
         ref.current.classList.add("scale-105", "shadow-lg", "transition-transform", "duration-200");
         setTimeout(() => {
           ref.current.classList.remove("scale-105", "shadow-lg");
@@ -199,7 +222,7 @@ const ResultPage = ({ handleRetrieve, loading, error, message }) => {
                       <th className="border px-4 py-2 text-left">Version</th>
                       <th className="border px-4 py-2 text-left">Type</th>
                       <th className="border px-4 py-2 text-left">Vulnerabilities</th>
-                      <th className="border px-4 py-2 text-left">Fix Version</th> {/* New Fix Version Column */}
+                      <th className="border px-4 py-2 text-left">Fix Version</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -216,6 +239,7 @@ const ResultPage = ({ handleRetrieve, loading, error, message }) => {
                       return (
                         <tr
                           key={i}
+                          ref={componentRefs.current[item.name]}
                           className={`border-t hover:bg-gray-50 ${
                             componentVulns.length > 0 ? "bg-red-50" : ""
                           }`}
@@ -361,7 +385,7 @@ const ResultPage = ({ handleRetrieve, loading, error, message }) => {
                       key={i}
                       dependency={dependency}
                       vulnerabilities={vulnerabilities}
-                      onVulnClick={handleVulnClick} // Pass click handler to DependencyNode
+                      onComponentClick={handleComponentClick}
                     />
                   )
                 )}
@@ -370,6 +394,16 @@ const ResultPage = ({ handleRetrieve, loading, error, message }) => {
               <p className="text-gray-500 italic">No dependencies tree available</p>
             )}
           </div>
+
+
+          {/* <div className="mb-6">
+        <h3 className="text-xl font-bold mb-3">Dependencies Bubble Graph</h3>
+        <BubbleGraph
+  dependencies={record.sbom.dependencies}
+  vulnerabilities={vulnerabilities}
+/>
+      </div> */}
+
 
 
         </div>

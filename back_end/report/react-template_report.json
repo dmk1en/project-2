@@ -1,0 +1,1068 @@
+{
+  "project_name": "react-template",
+  "scan_id": "20250516T095517",
+  "timestamp": "2025-05-16T09:56:35.458648815+07:00",
+  "vulnerabilities": [
+    {
+      "id": "GHSA-67hx-6x53-jw92",
+      "package_name": "babel-traverse",
+      "version": "6.26.0",
+      "severity": "Critical",
+      "fix_version": "",
+      "description": "Babel vulnerable to arbitrary code execution when compiling specifically crafted malicious code",
+      "cve": "CVE-2023-45133",
+      "cvss": 9.3,
+      "references": [
+        "https://github.com/babel/babel/commit/b13376b346946e3f62fc0848c1d2a23223314c82",
+        "https://github.com/babel/babel/pull/16033",
+        "https://github.com/babel/babel/releases/tag/v7.23.2",
+        "https://github.com/babel/babel/releases/tag/v8.0.0-alpha.4",
+        "https://github.com/babel/babel/security/advisories/GHSA-67hx-6x53-jw92",
+        "https://lists.debian.org/debian-lts-announce/2023/10/msg00026.html",
+        "https://www.debian.org/security/2023/dsa-5528",
+        "https://github.com/babel/babel/commit/b13376b346946e3f62fc0848c1d2a23223314c82",
+        "https://github.com/babel/babel/pull/16033",
+        "https://github.com/babel/babel/releases/tag/v7.23.2",
+        "https://github.com/babel/babel/releases/tag/v8.0.0-alpha.4",
+        "https://github.com/babel/babel/security/advisories/GHSA-67hx-6x53-jw92",
+        "https://lists.debian.org/debian-lts-announce/2023/10/msg00026.html",
+        "https://www.debian.org/security/2023/dsa-5528"
+      ],
+      "affected_versions": [
+        "\u003c7.23.2 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-pp7h-53gx-mx7r",
+      "package_name": "bl",
+      "version": "0.9.5",
+      "severity": "Medium",
+      "fix_version": "1.2.3",
+      "description": "Remote Memory Exposure in bl",
+      "cve": "CVE-2020-8244",
+      "cvss": 6.5,
+      "references": [
+        "https://hackerone.com/reports/966347",
+        "https://lists.debian.org/debian-lts-announce/2021/06/msg00028.html",
+        "https://hackerone.com/reports/966347",
+        "https://lists.debian.org/debian-lts-announce/2021/06/msg00028.html"
+      ],
+      "affected_versions": [
+        "\u003c1.2.3 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-grv7-fg5c-xmjg",
+      "package_name": "braces",
+      "version": "1.8.5",
+      "severity": "High",
+      "fix_version": "3.0.3",
+      "description": "Uncontrolled resource consumption in braces",
+      "cve": "CVE-2024-4068",
+      "cvss": 7.5,
+      "references": [
+        "https://devhub.checkmarx.com/cve-details/CVE-2024-4068/",
+        "https://github.com/micromatch/braces/commit/415d660c3002d1ab7e63dbf490c9851da80596ff",
+        "https://github.com/micromatch/braces/issues/35",
+        "https://github.com/micromatch/braces/pull/37",
+        "https://github.com/micromatch/braces/pull/40",
+        "https://devhub.checkmarx.com/cve-details/CVE-2024-4068/",
+        "https://github.com/micromatch/braces/commit/415d660c3002d1ab7e63dbf490c9851da80596ff",
+        "https://github.com/micromatch/braces/issues/35",
+        "https://github.com/micromatch/braces/pull/37",
+        "https://github.com/micromatch/braces/pull/40"
+      ],
+      "affected_versions": [
+        "\u003c3.0.3 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-cwfw-4gq5-mrqx",
+      "package_name": "braces",
+      "version": "1.8.5",
+      "severity": "Low",
+      "fix_version": "2.3.1",
+      "description": "Regular Expression Denial of Service (ReDoS) in braces",
+      "cve": "CVE-2018-1109",
+      "cvss": 0,
+      "references": [
+        "https://bugzilla.redhat.com/show_bug.cgi?id=1547272",
+        "https://snyk.io/vuln/npm:braces:20180219",
+        "https://bugzilla.redhat.com/show_bug.cgi?id=1547272",
+        "https://snyk.io/vuln/npm:braces:20180219"
+      ],
+      "affected_versions": [
+        "\u003c2.3.1 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-g95f-p29q-9xw4",
+      "package_name": "braces",
+      "version": "1.8.5",
+      "severity": "Low",
+      "fix_version": "2.3.1",
+      "description": "Regular Expression Denial of Service in braces",
+      "cve": "",
+      "cvss": 3.7,
+      "references": null,
+      "affected_versions": [
+        "\u003c2.3.1 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-grv7-fg5c-xmjg",
+      "package_name": "braces",
+      "version": "2.3.2",
+      "severity": "High",
+      "fix_version": "3.0.3",
+      "description": "Uncontrolled resource consumption in braces",
+      "cve": "CVE-2024-4068",
+      "cvss": 7.5,
+      "references": [
+        "https://devhub.checkmarx.com/cve-details/CVE-2024-4068/",
+        "https://github.com/micromatch/braces/commit/415d660c3002d1ab7e63dbf490c9851da80596ff",
+        "https://github.com/micromatch/braces/issues/35",
+        "https://github.com/micromatch/braces/pull/37",
+        "https://github.com/micromatch/braces/pull/40",
+        "https://devhub.checkmarx.com/cve-details/CVE-2024-4068/",
+        "https://github.com/micromatch/braces/commit/415d660c3002d1ab7e63dbf490c9851da80596ff",
+        "https://github.com/micromatch/braces/issues/35",
+        "https://github.com/micromatch/braces/pull/37",
+        "https://github.com/micromatch/braces/pull/40"
+      ],
+      "affected_versions": [
+        "\u003c3.0.3 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-wxhq-pm8v-cw75",
+      "package_name": "clean-css",
+      "version": "3.4.28",
+      "severity": "Low",
+      "fix_version": "4.1.11",
+      "description": "Regular Expression Denial of Service in clean-css",
+      "cve": "",
+      "cvss": 0,
+      "references": null,
+      "affected_versions": [
+        "\u003c4.1.11 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-h6ch-v84p-w6p9",
+      "package_name": "diff",
+      "version": "1.4.0",
+      "severity": "High",
+      "fix_version": "3.5.0",
+      "description": "Regular Expression Denial of Service (ReDoS)",
+      "cve": "",
+      "cvss": 0,
+      "references": null,
+      "affected_versions": [
+        "\u003c3.5.0 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-pfrx-2q88-qq97",
+      "package_name": "got",
+      "version": "3.3.1",
+      "severity": "Medium",
+      "fix_version": "11.8.5",
+      "description": "Got allows a redirect to a UNIX socket",
+      "cve": "CVE-2022-33987",
+      "cvss": 5.3,
+      "references": [
+        "https://github.com/sindresorhus/got/compare/v12.0.3...v12.1.0",
+        "https://github.com/sindresorhus/got/pull/2047",
+        "https://github.com/sindresorhus/got/releases/tag/v11.8.5",
+        "https://github.com/sindresorhus/got/compare/v12.0.3...v12.1.0",
+        "https://github.com/sindresorhus/got/pull/2047",
+        "https://github.com/sindresorhus/got/releases/tag/v11.8.5"
+      ],
+      "affected_versions": [
+        "\u003c11.8.5 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-c429-5p7v-vgjp",
+      "package_name": "hoek",
+      "version": "2.16.3",
+      "severity": "High",
+      "fix_version": "",
+      "description": "hoek subject to prototype pollution via the clone function.",
+      "cve": "CVE-2020-36604",
+      "cvss": 8.1,
+      "references": [
+        "https://github.com/hapijs/hoek/issues/352",
+        "https://security.snyk.io/vuln/SNYK-JS-HAPIHOEK-548452%29",
+        "https://github.com/hapijs/hoek/issues/352",
+        "https://security.snyk.io/vuln/SNYK-JS-HAPIHOEK-548452%29"
+      ],
+      "affected_versions": [
+        "\u003c=6.1.3 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-jp4x-w63m-7wgm",
+      "package_name": "hoek",
+      "version": "2.16.3",
+      "severity": "High",
+      "fix_version": "4.2.1",
+      "description": "Prototype Pollution in hoek",
+      "cve": "CVE-2018-3728",
+      "cvss": 8.8,
+      "references": [
+        "http://www.securityfocus.com/bid/103108",
+        "https://access.redhat.com/errata/RHSA-2018:1263",
+        "https://access.redhat.com/errata/RHSA-2018:1264",
+        "https://github.com/hapijs/hoek/commit/32ed5c9413321fbc37da5ca81a7cbab693786dee",
+        "https://hackerone.com/reports/310439",
+        "https://nodesecurity.io/advisories/566",
+        "https://snyk.io/vuln/npm:hoek:20180212",
+        "http://www.securityfocus.com/bid/103108",
+        "https://access.redhat.com/errata/RHSA-2018:1263",
+        "https://access.redhat.com/errata/RHSA-2018:1264",
+        "https://github.com/hapijs/hoek/commit/32ed5c9413321fbc37da5ca81a7cbab693786dee",
+        "https://hackerone.com/reports/310439",
+        "https://nodesecurity.io/advisories/566",
+        "https://snyk.io/vuln/npm:hoek:20180212"
+      ],
+      "affected_versions": [
+        "\u003c4.2.1 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-pfq8-rq6v-vf5m",
+      "package_name": "html-minifier",
+      "version": "1.5.0",
+      "severity": "High",
+      "fix_version": "",
+      "description": "kangax html-minifier REDoS vulnerability",
+      "cve": "CVE-2022-37620",
+      "cvss": 7.5,
+      "references": [
+        "https://github.com/kangax/html-minifier/blob/51ce10f4daedb1de483ffbcccecc41be1c873da2/src/htmlminifier.js#L1338",
+        "https://github.com/kangax/html-minifier/blob/51ce10f4daedb1de483ffbcccecc41be1c873da2/src/htmlminifier.js#L294",
+        "https://github.com/kangax/html-minifier/issues/1135",
+        "https://github.com/kangax/html-minifier/blob/51ce10f4daedb1de483ffbcccecc41be1c873da2/src/htmlminifier.js#L1338",
+        "https://github.com/kangax/html-minifier/blob/51ce10f4daedb1de483ffbcccecc41be1c873da2/src/htmlminifier.js#L294",
+        "https://github.com/kangax/html-minifier/issues/1135"
+      ],
+      "affected_versions": [
+        "\u003c=4.0.0 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-c7qv-q95q-8v27",
+      "package_name": "http-proxy-middleware",
+      "version": "0.17.4",
+      "severity": "High",
+      "fix_version": "2.0.7",
+      "description": "Denial of service in http-proxy-middleware",
+      "cve": "CVE-2024-21536",
+      "cvss": 7.5,
+      "references": [
+        "https://gist.github.com/mhassan1/28be67266d82a53708ed59ce5dc3c94a",
+        "https://github.com/chimurai/http-proxy-middleware/commit/0b4274e8cc9e9a2c5a06f35fbf456ccfcebc55a5",
+        "https://github.com/chimurai/http-proxy-middleware/commit/788b21e4aff38332d6319557d4a5b1b13b1f9a22",
+        "https://security.snyk.io/vuln/SNYK-JS-HTTPPROXYMIDDLEWARE-8229906"
+      ],
+      "affected_versions": [
+        "\u003c2.0.7 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-8j8c-7jfh-h6hx",
+      "package_name": "js-yaml",
+      "version": "3.4.5",
+      "severity": "High",
+      "fix_version": "3.13.1",
+      "description": "Code Injection in js-yaml",
+      "cve": "",
+      "cvss": 0,
+      "references": null,
+      "affected_versions": [
+        "\u003c3.13.1 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-2pr6-76vf-7546",
+      "package_name": "js-yaml",
+      "version": "3.4.5",
+      "severity": "Medium",
+      "fix_version": "3.13.0",
+      "description": "Denial of Service in js-yaml",
+      "cve": "",
+      "cvss": 5.9,
+      "references": null,
+      "affected_versions": [
+        "\u003c3.13.0 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-6xrf-q977-5vgc",
+      "package_name": "json-pointer",
+      "version": "0.2.2",
+      "severity": "Critical",
+      "fix_version": "0.6.2",
+      "description": "json-pointer vulnerable to Prototype Pollution",
+      "cve": "CVE-2022-4742",
+      "cvss": 9.8,
+      "references": [
+        "https://github.com/manuelstofer/json-pointer/commit/859c9984b6c407fc2d5a0a7e47c7274daa681941",
+        "https://github.com/manuelstofer/json-pointer/pull/36",
+        "https://vuldb.com/?ctiid.216794",
+        "https://vuldb.com/?id.216794",
+        "https://github.com/manuelstofer/json-pointer/commit/859c9984b6c407fc2d5a0a7e47c7274daa681941",
+        "https://github.com/manuelstofer/json-pointer/pull/36",
+        "https://vuldb.com/?ctiid.216794",
+        "https://vuldb.com/?id.216794"
+      ],
+      "affected_versions": [
+        "\u003c0.6.2 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-7mg4-w3w5-x5pc",
+      "package_name": "json-pointer",
+      "version": "0.2.2",
+      "severity": "Medium",
+      "fix_version": "0.6.1",
+      "description": "Prototype pollution in json-pointer",
+      "cve": "CVE-2020-7709",
+      "cvss": 6,
+      "references": [
+        "https://github.com/manuelstofer/json-pointer/pull/34/files",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-598862",
+        "https://snyk.io/vuln/SNYK-JS-JSONPOINTER-596925",
+        "https://github.com/manuelstofer/json-pointer/pull/34/files",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-598862",
+        "https://snyk.io/vuln/SNYK-JS-JSONPOINTER-596925"
+      ],
+      "affected_versions": [
+        "\u003c0.6.1 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-v5vg-g7rq-363w",
+      "package_name": "json-pointer",
+      "version": "0.2.2",
+      "severity": "Medium",
+      "fix_version": "0.6.2",
+      "description": "Prototype Pollution in json-pointer",
+      "cve": "CVE-2021-23820",
+      "cvss": 5.6,
+      "references": [
+        "https://github.com/manuelstofer/json-pointer/blob/master/index.js%23L78",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-1910686",
+        "https://snyk.io/vuln/SNYK-JS-JSONPOINTER-1577287",
+        "https://github.com/manuelstofer/json-pointer/blob/master/index.js%23L78",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-1910686",
+        "https://snyk.io/vuln/SNYK-JS-JSONPOINTER-1577287"
+      ],
+      "affected_versions": [
+        "\u003c=0.6.1 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-9c47-m6qq-7p4h",
+      "package_name": "json5",
+      "version": "0.5.1",
+      "severity": "High",
+      "fix_version": "1.0.2",
+      "description": "Prototype Pollution in JSON5 via Parse Method",
+      "cve": "CVE-2022-46175",
+      "cvss": 7.1,
+      "references": [
+        "https://github.com/json5/json5/issues/199",
+        "https://github.com/json5/json5/issues/295",
+        "https://github.com/json5/json5/pull/298",
+        "https://github.com/json5/json5/security/advisories/GHSA-9c47-m6qq-7p4h",
+        "https://lists.debian.org/debian-lts-announce/2023/11/msg00021.html",
+        "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/3S26TLPLVFAJTUN3VIXFDEBEXDYO22CE/",
+        "https://github.com/json5/json5/issues/199",
+        "https://github.com/json5/json5/issues/295",
+        "https://github.com/json5/json5/pull/298",
+        "https://github.com/json5/json5/security/advisories/GHSA-9c47-m6qq-7p4h",
+        "https://lists.debian.org/debian-lts-announce/2023/11/msg00021.html",
+        "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/3S26TLPLVFAJTUN3VIXFDEBEXDYO22CE/"
+      ],
+      "affected_versions": [
+        "\u003c1.0.2 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-76p3-8jx3-jpfq",
+      "package_name": "loader-utils",
+      "version": "0.2.17",
+      "severity": "Critical",
+      "fix_version": "1.4.1",
+      "description": "Prototype pollution in webpack loader-utils",
+      "cve": "CVE-2022-37601",
+      "cvss": 9.8,
+      "references": [
+        "http://users.encs.concordia.ca/~mmannan/publications/JS-vulnerability-aisaccs2022.pdf",
+        "https://dl.acm.org/doi/abs/10.1145/3488932.3497769",
+        "https://dl.acm.org/doi/pdf/10.1145/3488932.3497769",
+        "https://github.com/webpack/loader-utils/blob/d9f4e23cf411d8556f8bac2d3bf05a6e0103b568/lib/parseQuery.js#L11",
+        "https://github.com/webpack/loader-utils/blob/d9f4e23cf411d8556f8bac2d3bf05a6e0103b568/lib/parseQuery.js#L47",
+        "https://github.com/webpack/loader-utils/issues/212",
+        "https://github.com/webpack/loader-utils/issues/212#issuecomment-1319192884",
+        "https://github.com/xmldom/xmldom/issues/436#issuecomment-1319412826",
+        "https://lists.debian.org/debian-lts-announce/2022/12/msg00044.html",
+        "http://users.encs.concordia.ca/~mmannan/publications/JS-vulnerability-aisaccs2022.pdf",
+        "https://dl.acm.org/doi/abs/10.1145/3488932.3497769",
+        "https://dl.acm.org/doi/pdf/10.1145/3488932.3497769",
+        "https://github.com/webpack/loader-utils/blob/d9f4e23cf411d8556f8bac2d3bf05a6e0103b568/lib/parseQuery.js#L11",
+        "https://github.com/webpack/loader-utils/blob/d9f4e23cf411d8556f8bac2d3bf05a6e0103b568/lib/parseQuery.js#L47",
+        "https://github.com/webpack/loader-utils/issues/212",
+        "https://github.com/webpack/loader-utils/issues/212#issuecomment-1319192884",
+        "https://github.com/xmldom/xmldom/issues/436#issuecomment-1319412826",
+        "https://lists.debian.org/debian-lts-announce/2022/12/msg00044.html"
+      ],
+      "affected_versions": [
+        "\u003c1.4.1 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-jf85-cpcp-j695",
+      "package_name": "lodash",
+      "version": "3.10.1",
+      "severity": "Critical",
+      "fix_version": "4.17.12",
+      "description": "Prototype Pollution in lodash",
+      "cve": "CVE-2019-10744",
+      "cvss": 9.1,
+      "references": [
+        "https://access.redhat.com/errata/RHSA-2019:3024",
+        "https://security.netapp.com/advisory/ntap-20191004-0005/",
+        "https://snyk.io/vuln/SNYK-JS-LODASH-450202",
+        "https://support.f5.com/csp/article/K47105354?utm_source=f5support\u0026amp%3Butm_medium=RSS",
+        "https://www.oracle.com/security-alerts/cpujan2021.html",
+        "https://www.oracle.com/security-alerts/cpuoct2020.html",
+        "https://access.redhat.com/errata/RHSA-2019:3024",
+        "https://security.netapp.com/advisory/ntap-20191004-0005/",
+        "https://snyk.io/vuln/SNYK-JS-LODASH-450202",
+        "https://support.f5.com/csp/article/K47105354?utm_source=f5support\u0026amp%3Butm_medium=RSS",
+        "https://www.oracle.com/security-alerts/cpujan2021.html",
+        "https://www.oracle.com/security-alerts/cpuoct2020.html"
+      ],
+      "affected_versions": [
+        "\u003c4.17.12 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-35jh-r3h4-6jhm",
+      "package_name": "lodash",
+      "version": "3.10.1",
+      "severity": "High",
+      "fix_version": "4.17.21",
+      "description": "Command Injection in lodash",
+      "cve": "CVE-2021-23337",
+      "cvss": 7.2,
+      "references": [
+        "https://cert-portal.siemens.com/productcert/pdf/ssa-637483.pdf",
+        "https://github.com/lodash/lodash/blob/ddfd9b11a0126db2302cb70ec9973b66baec0975/lodash.js%23L14851",
+        "https://security.netapp.com/advisory/ntap-20210312-0006/",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGFUJIONWEBJARS-1074932",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARS-1074930",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSBOWER-1074928",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSBOWERGITHUBLODASH-1074931",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-1074929",
+        "https://snyk.io/vuln/SNYK-JS-LODASH-1040724",
+        "https://www.oracle.com//security-alerts/cpujul2021.html",
+        "https://www.oracle.com/security-alerts/cpujan2022.html",
+        "https://www.oracle.com/security-alerts/cpujul2022.html",
+        "https://www.oracle.com/security-alerts/cpuoct2021.html",
+        "https://cert-portal.siemens.com/productcert/pdf/ssa-637483.pdf",
+        "https://github.com/lodash/lodash/blob/ddfd9b11a0126db2302cb70ec9973b66baec0975/lodash.js%23L14851",
+        "https://security.netapp.com/advisory/ntap-20210312-0006/",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGFUJIONWEBJARS-1074932",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARS-1074930",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSBOWER-1074928",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSBOWERGITHUBLODASH-1074931",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-1074929",
+        "https://snyk.io/vuln/SNYK-JS-LODASH-1040724",
+        "https://www.oracle.com//security-alerts/cpujul2021.html",
+        "https://www.oracle.com/security-alerts/cpujan2022.html",
+        "https://www.oracle.com/security-alerts/cpujul2022.html",
+        "https://www.oracle.com/security-alerts/cpuoct2021.html"
+      ],
+      "affected_versions": [
+        "\u003c4.17.21 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-4xc9-xhrj-v574",
+      "package_name": "lodash",
+      "version": "3.10.1",
+      "severity": "High",
+      "fix_version": "4.17.11",
+      "description": "Prototype Pollution in lodash",
+      "cve": "CVE-2018-16487",
+      "cvss": 0,
+      "references": [
+        "https://hackerone.com/reports/380873",
+        "https://security.netapp.com/advisory/ntap-20190919-0004/",
+        "https://hackerone.com/reports/380873",
+        "https://security.netapp.com/advisory/ntap-20190919-0004/"
+      ],
+      "affected_versions": [
+        "\u003c4.17.11 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-p6mc-m468-83gw",
+      "package_name": "lodash",
+      "version": "3.10.1",
+      "severity": "High",
+      "fix_version": "4.17.19",
+      "description": "Prototype Pollution in lodash",
+      "cve": "CVE-2020-8203",
+      "cvss": 7.4,
+      "references": [
+        "https://github.com/lodash/lodash/issues/4874",
+        "https://hackerone.com/reports/712065",
+        "https://security.netapp.com/advisory/ntap-20200724-0006/",
+        "https://www.oracle.com//security-alerts/cpujul2021.html",
+        "https://www.oracle.com/security-alerts/cpuApr2021.html",
+        "https://www.oracle.com/security-alerts/cpuapr2022.html",
+        "https://www.oracle.com/security-alerts/cpujan2022.html",
+        "https://www.oracle.com/security-alerts/cpuoct2021.html",
+        "https://github.com/lodash/lodash/issues/4874",
+        "https://hackerone.com/reports/712065",
+        "https://security.netapp.com/advisory/ntap-20200724-0006/",
+        "https://www.oracle.com//security-alerts/cpujul2021.html",
+        "https://www.oracle.com/security-alerts/cpuApr2021.html",
+        "https://www.oracle.com/security-alerts/cpuapr2022.html",
+        "https://www.oracle.com/security-alerts/cpujan2022.html",
+        "https://www.oracle.com/security-alerts/cpuoct2021.html"
+      ],
+      "affected_versions": [
+        "\u003e=3.7.0,\u003c4.17.19 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-29mw-wpgm-hmr9",
+      "package_name": "lodash",
+      "version": "3.10.1",
+      "severity": "Medium",
+      "fix_version": "4.17.21",
+      "description": "Regular Expression Denial of Service (ReDoS) in lodash",
+      "cve": "CVE-2020-28500",
+      "cvss": 5.3,
+      "references": [
+        "https://cert-portal.siemens.com/productcert/pdf/ssa-637483.pdf",
+        "https://github.com/lodash/lodash/blob/npm/trimEnd.js%23L8",
+        "https://github.com/lodash/lodash/pull/5065",
+        "https://security.netapp.com/advisory/ntap-20210312-0006/",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGFUJIONWEBJARS-1074896",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARS-1074894",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSBOWER-1074892",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSBOWERGITHUBLODASH-1074895",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-1074893",
+        "https://snyk.io/vuln/SNYK-JS-LODASH-1018905",
+        "https://www.oracle.com//security-alerts/cpujul2021.html",
+        "https://www.oracle.com/security-alerts/cpujan2022.html",
+        "https://www.oracle.com/security-alerts/cpujul2022.html",
+        "https://www.oracle.com/security-alerts/cpuoct2021.html",
+        "https://cert-portal.siemens.com/productcert/pdf/ssa-637483.pdf",
+        "https://github.com/lodash/lodash/blob/npm/trimEnd.js%23L8",
+        "https://github.com/lodash/lodash/pull/5065",
+        "https://security.netapp.com/advisory/ntap-20210312-0006/",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGFUJIONWEBJARS-1074896",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARS-1074894",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSBOWER-1074892",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSBOWERGITHUBLODASH-1074895",
+        "https://snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-1074893",
+        "https://snyk.io/vuln/SNYK-JS-LODASH-1018905",
+        "https://www.oracle.com//security-alerts/cpujul2021.html",
+        "https://www.oracle.com/security-alerts/cpujan2022.html",
+        "https://www.oracle.com/security-alerts/cpujul2022.html",
+        "https://www.oracle.com/security-alerts/cpuoct2021.html"
+      ],
+      "affected_versions": [
+        "\u003c4.17.21 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-fvqr-27wr-82fm",
+      "package_name": "lodash",
+      "version": "3.10.1",
+      "severity": "Medium",
+      "fix_version": "4.17.5",
+      "description": "Prototype Pollution in lodash",
+      "cve": "CVE-2018-3721",
+      "cvss": 6.5,
+      "references": [
+        "https://github.com/lodash/lodash/commit/d8e069cc3410082e44eb18fcf8e7f3d08ebe1d4a",
+        "https://hackerone.com/reports/310443",
+        "https://security.netapp.com/advisory/ntap-20190919-0004/",
+        "https://github.com/lodash/lodash/commit/d8e069cc3410082e44eb18fcf8e7f3d08ebe1d4a",
+        "https://hackerone.com/reports/310443",
+        "https://security.netapp.com/advisory/ntap-20190919-0004/"
+      ],
+      "affected_versions": [
+        "\u003c4.17.5 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-x5rq-j2xg-h7qm",
+      "package_name": "lodash",
+      "version": "3.10.1",
+      "severity": "Medium",
+      "fix_version": "4.17.11",
+      "description": "Regular Expression Denial of Service (ReDoS) in lodash",
+      "cve": "CVE-2019-1010266",
+      "cvss": 0,
+      "references": [
+        "https://github.com/lodash/lodash/issues/3359",
+        "https://github.com/lodash/lodash/wiki/Changelog",
+        "https://security.netapp.com/advisory/ntap-20190919-0004/",
+        "https://snyk.io/vuln/SNYK-JS-LODASH-73639",
+        "https://github.com/lodash/lodash/issues/3359",
+        "https://github.com/lodash/lodash/wiki/Changelog",
+        "https://security.netapp.com/advisory/ntap-20190919-0004/",
+        "https://snyk.io/vuln/SNYK-JS-LODASH-73639"
+      ],
+      "affected_versions": [
+        "\u003c4.17.11 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-2m96-9w4j-wgv7",
+      "package_name": "lodash.merge",
+      "version": "3.3.2",
+      "severity": "High",
+      "fix_version": "4.6.1",
+      "description": "Prototype Pollution in lodash.merge",
+      "cve": "",
+      "cvss": 0,
+      "references": null,
+      "affected_versions": [
+        "\u003c4.6.1 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-h726-x36v-rx45",
+      "package_name": "lodash.merge",
+      "version": "3.3.2",
+      "severity": "High",
+      "fix_version": "4.6.2",
+      "description": "Prototype Pollution in lodash.merge",
+      "cve": "",
+      "cvss": 0,
+      "references": null,
+      "affected_versions": [
+        "\u003c4.6.2 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-952p-6rrq-rcjv",
+      "package_name": "micromatch",
+      "version": "2.3.11",
+      "severity": "Medium",
+      "fix_version": "4.0.8",
+      "description": "Regular Expression Denial of Service (ReDoS) in micromatch",
+      "cve": "CVE-2024-4067",
+      "cvss": 5.3,
+      "references": [
+        "https://advisory.checkmarx.net/advisory/CVE-2024-4067/",
+        "https://devhub.checkmarx.com/cve-details/CVE-2024-4067/",
+        "https://github.com/micromatch/micromatch/commit/03aa8052171e878897eee5d7bb2ae0ae83ec2ade",
+        "https://github.com/micromatch/micromatch/pull/266",
+        "https://github.com/micromatch/micromatch/releases/tag/4.0.8",
+        "https://devhub.checkmarx.com/cve-details/CVE-2024-4067/",
+        "https://github.com/micromatch/micromatch/blob/2c56a8604b68c1099e7bc0f807ce0865a339747a/index.js#L448",
+        "https://github.com/micromatch/micromatch/issues/243",
+        "https://github.com/micromatch/micromatch/pull/247"
+      ],
+      "affected_versions": [
+        "\u003c4.0.8 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-952p-6rrq-rcjv",
+      "package_name": "micromatch",
+      "version": "3.1.10",
+      "severity": "Medium",
+      "fix_version": "4.0.8",
+      "description": "Regular Expression Denial of Service (ReDoS) in micromatch",
+      "cve": "CVE-2024-4067",
+      "cvss": 5.3,
+      "references": [
+        "https://advisory.checkmarx.net/advisory/CVE-2024-4067/",
+        "https://devhub.checkmarx.com/cve-details/CVE-2024-4067/",
+        "https://github.com/micromatch/micromatch/commit/03aa8052171e878897eee5d7bb2ae0ae83ec2ade",
+        "https://github.com/micromatch/micromatch/pull/266",
+        "https://github.com/micromatch/micromatch/releases/tag/4.0.8",
+        "https://devhub.checkmarx.com/cve-details/CVE-2024-4067/",
+        "https://github.com/micromatch/micromatch/blob/2c56a8604b68c1099e7bc0f807ce0865a339747a/index.js#L448",
+        "https://github.com/micromatch/micromatch/issues/243",
+        "https://github.com/micromatch/micromatch/pull/247"
+      ],
+      "affected_versions": [
+        "\u003c4.0.8 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-f8q6-p94x-37v3",
+      "package_name": "minimatch",
+      "version": "1.0.0",
+      "severity": "High",
+      "fix_version": "3.0.5",
+      "description": "minimatch ReDoS vulnerability",
+      "cve": "CVE-2022-3517",
+      "cvss": 7.5,
+      "references": [
+        "https://github.com/grafana/grafana-image-renderer/issues/329",
+        "https://github.com/isaacs/minimatch/commit/a8763f4388e51956be62dc6025cec1126beeb5e6",
+        "https://lists.debian.org/debian-lts-announce/2023/01/msg00011.html",
+        "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/MTEUUTNIEBHGKUKKLNUZSV7IEP6IP3Q3/",
+        "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/UM6XJ73Q3NAM5KSGCOKJ2ZIA6GUWUJLK/",
+        "https://github.com/grafana/grafana-image-renderer/issues/329",
+        "https://github.com/isaacs/minimatch/commit/a8763f4388e51956be62dc6025cec1126beeb5e6",
+        "https://lists.debian.org/debian-lts-announce/2023/01/msg00011.html",
+        "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/MTEUUTNIEBHGKUKKLNUZSV7IEP6IP3Q3/",
+        "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/UM6XJ73Q3NAM5KSGCOKJ2ZIA6GUWUJLK/"
+      ],
+      "affected_versions": [
+        "\u003c3.0.5 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-hxm2-r34f-qmc5",
+      "package_name": "minimatch",
+      "version": "1.0.0",
+      "severity": "High",
+      "fix_version": "3.0.2",
+      "description": "Regular Expression Denial of Service in minimatch",
+      "cve": "CVE-2016-10540",
+      "cvss": 7.5,
+      "references": [
+        "https://nodesecurity.io/advisories/118",
+        "https://nodesecurity.io/advisories/118"
+      ],
+      "affected_versions": [
+        "\u003c3.0.2 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-f8q6-p94x-37v3",
+      "package_name": "minimatch",
+      "version": "2.0.10",
+      "severity": "High",
+      "fix_version": "3.0.5",
+      "description": "minimatch ReDoS vulnerability",
+      "cve": "CVE-2022-3517",
+      "cvss": 7.5,
+      "references": [
+        "https://github.com/grafana/grafana-image-renderer/issues/329",
+        "https://github.com/isaacs/minimatch/commit/a8763f4388e51956be62dc6025cec1126beeb5e6",
+        "https://lists.debian.org/debian-lts-announce/2023/01/msg00011.html",
+        "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/MTEUUTNIEBHGKUKKLNUZSV7IEP6IP3Q3/",
+        "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/UM6XJ73Q3NAM5KSGCOKJ2ZIA6GUWUJLK/",
+        "https://github.com/grafana/grafana-image-renderer/issues/329",
+        "https://github.com/isaacs/minimatch/commit/a8763f4388e51956be62dc6025cec1126beeb5e6",
+        "https://lists.debian.org/debian-lts-announce/2023/01/msg00011.html",
+        "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/MTEUUTNIEBHGKUKKLNUZSV7IEP6IP3Q3/",
+        "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/UM6XJ73Q3NAM5KSGCOKJ2ZIA6GUWUJLK/"
+      ],
+      "affected_versions": [
+        "\u003c3.0.5 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-hxm2-r34f-qmc5",
+      "package_name": "minimatch",
+      "version": "2.0.10",
+      "severity": "High",
+      "fix_version": "3.0.2",
+      "description": "Regular Expression Denial of Service in minimatch",
+      "cve": "CVE-2016-10540",
+      "cvss": 7.5,
+      "references": [
+        "https://nodesecurity.io/advisories/118",
+        "https://nodesecurity.io/advisories/118"
+      ],
+      "affected_versions": [
+        "\u003c3.0.2 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-xvch-5gv4-984h",
+      "package_name": "minimist",
+      "version": "0.0.10",
+      "severity": "Critical",
+      "fix_version": "0.2.4",
+      "description": "Prototype Pollution in minimist",
+      "cve": "CVE-2021-44906",
+      "cvss": 9.8,
+      "references": [
+        "https://github.com/Marynk/JavaScript-vulnerability-detection/blob/main/minimist%20PoC.zip",
+        "https://github.com/substack/minimist/blob/master/index.js#L69",
+        "https://github.com/substack/minimist/issues/164",
+        "https://security.netapp.com/advisory/ntap-20240621-0006/",
+        "https://snyk.io/vuln/SNYK-JS-MINIMIST-559764",
+        "https://stackoverflow.com/questions/8588563/adding-custom-properties-to-a-function/20278068#20278068",
+        "https://github.com/Marynk/JavaScript-vulnerability-detection/blob/main/minimist%20PoC.zip",
+        "https://github.com/substack/minimist/blob/master/index.js#L69",
+        "https://github.com/substack/minimist/issues/164",
+        "https://security.netapp.com/advisory/ntap-20240621-0006/",
+        "https://snyk.io/vuln/SNYK-JS-MINIMIST-559764",
+        "https://stackoverflow.com/questions/8588563/adding-custom-properties-to-a-function/20278068#20278068"
+      ],
+      "affected_versions": [
+        "\u003c0.2.4 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-vh95-rmgr-6w4m",
+      "package_name": "minimist",
+      "version": "0.0.10",
+      "severity": "Medium",
+      "fix_version": "0.2.1",
+      "description": "Prototype Pollution in minimist",
+      "cve": "CVE-2020-7598",
+      "cvss": 5.6,
+      "references": [
+        "http://lists.opensuse.org/opensuse-security-announce/2020-06/msg00024.html",
+        "https://snyk.io/vuln/SNYK-JS-MINIMIST-559764",
+        "http://lists.opensuse.org/opensuse-security-announce/2020-06/msg00024.html",
+        "https://snyk.io/vuln/SNYK-JS-MINIMIST-559764"
+      ],
+      "affected_versions": [
+        "\u003c0.2.1 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-xvch-5gv4-984h",
+      "package_name": "minimist",
+      "version": "0.1.0",
+      "severity": "Critical",
+      "fix_version": "0.2.4",
+      "description": "Prototype Pollution in minimist",
+      "cve": "CVE-2021-44906",
+      "cvss": 9.8,
+      "references": [
+        "https://github.com/Marynk/JavaScript-vulnerability-detection/blob/main/minimist%20PoC.zip",
+        "https://github.com/substack/minimist/blob/master/index.js#L69",
+        "https://github.com/substack/minimist/issues/164",
+        "https://security.netapp.com/advisory/ntap-20240621-0006/",
+        "https://snyk.io/vuln/SNYK-JS-MINIMIST-559764",
+        "https://stackoverflow.com/questions/8588563/adding-custom-properties-to-a-function/20278068#20278068",
+        "https://github.com/Marynk/JavaScript-vulnerability-detection/blob/main/minimist%20PoC.zip",
+        "https://github.com/substack/minimist/blob/master/index.js#L69",
+        "https://github.com/substack/minimist/issues/164",
+        "https://security.netapp.com/advisory/ntap-20240621-0006/",
+        "https://snyk.io/vuln/SNYK-JS-MINIMIST-559764",
+        "https://stackoverflow.com/questions/8588563/adding-custom-properties-to-a-function/20278068#20278068"
+      ],
+      "affected_versions": [
+        "\u003c0.2.4 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-vh95-rmgr-6w4m",
+      "package_name": "minimist",
+      "version": "0.1.0",
+      "severity": "Medium",
+      "fix_version": "0.2.1",
+      "description": "Prototype Pollution in minimist",
+      "cve": "CVE-2020-7598",
+      "cvss": 5.6,
+      "references": [
+        "http://lists.opensuse.org/opensuse-security-announce/2020-06/msg00024.html",
+        "https://snyk.io/vuln/SNYK-JS-MINIMIST-559764",
+        "http://lists.opensuse.org/opensuse-security-announce/2020-06/msg00024.html",
+        "https://snyk.io/vuln/SNYK-JS-MINIMIST-559764"
+      ],
+      "affected_versions": [
+        "\u003c0.2.1 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-28xh-wpgr-7fm8",
+      "package_name": "open",
+      "version": "0.0.5",
+      "severity": "Critical",
+      "fix_version": "6.0.0",
+      "description": "Command Injection in open",
+      "cve": "",
+      "cvss": 0,
+      "references": null,
+      "affected_versions": [
+        "\u003c6.0.0 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-p8p7-x288-28g6",
+      "package_name": "request",
+      "version": "2.88.2",
+      "severity": "Medium",
+      "fix_version": "",
+      "description": "Server-Side Request Forgery in Request",
+      "cve": "CVE-2023-28155",
+      "cvss": 6.1,
+      "references": [
+        "https://doyensec.com/resources/Doyensec_Advisory_RequestSSRF_Q12023.pdf",
+        "https://github.com/request/request/issues/3442",
+        "https://github.com/request/request/pull/3444",
+        "https://security.netapp.com/advisory/ntap-20230413-0007/",
+        "https://doyensec.com/resources/Doyensec_Advisory_RequestSSRF_Q12023.pdf",
+        "https://github.com/request/request/issues/3442",
+        "https://github.com/request/request/pull/3444",
+        "https://security.netapp.com/advisory/ntap-20230413-0007/"
+      ],
+      "affected_versions": [
+        "\u003c=2.88.2 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-c2qf-rxjj-qqgw",
+      "package_name": "semver",
+      "version": "4.3.6",
+      "severity": "High",
+      "fix_version": "5.7.2",
+      "description": "semver vulnerable to Regular Expression Denial of Service",
+      "cve": "CVE-2022-25883",
+      "cvss": 7.5,
+      "references": [
+        "https://github.com/npm/node-semver/blob/main/classes/range.js%23L97-L104",
+        "https://github.com/npm/node-semver/blob/main/internal/re.js%23L138",
+        "https://github.com/npm/node-semver/blob/main/internal/re.js%23L160",
+        "https://github.com/npm/node-semver/commit/717534ee353682f3bcf33e60a8af4292626d4441",
+        "https://github.com/npm/node-semver/pull/564",
+        "https://security.snyk.io/vuln/SNYK-JS-SEMVER-3247795",
+        "https://github.com/npm/node-semver/blob/main/classes/range.js%23L97-L104",
+        "https://github.com/npm/node-semver/blob/main/internal/re.js%23L138",
+        "https://github.com/npm/node-semver/blob/main/internal/re.js%23L160",
+        "https://github.com/npm/node-semver/commit/717534ee353682f3bcf33e60a8af4292626d4441",
+        "https://github.com/npm/node-semver/pull/564",
+        "https://security.netapp.com/advisory/ntap-20241025-0004/",
+        "https://security.snyk.io/vuln/SNYK-JS-SEMVER-3247795"
+      ],
+      "affected_versions": [
+        "\u003c5.7.2 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-4rq4-32rv-6wp6",
+      "package_name": "shelljs",
+      "version": "0.5.3",
+      "severity": "High",
+      "fix_version": "0.8.5",
+      "description": "Improper Privilege Management in shelljs",
+      "cve": "CVE-2022-0144",
+      "cvss": 7.1,
+      "references": [
+        "https://github.com/shelljs/shelljs/commit/d919d22dd6de385edaa9d90313075a77f74b338c",
+        "https://huntr.dev/bounties/50996581-c08e-4eed-a90e-c0bac082679c",
+        "https://github.com/shelljs/shelljs/commit/d919d22dd6de385edaa9d90313075a77f74b338c",
+        "https://huntr.dev/bounties/50996581-c08e-4eed-a90e-c0bac082679c"
+      ],
+      "affected_versions": [
+        "\u003c0.8.5 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-64g7-mvw6-v9qj",
+      "package_name": "shelljs",
+      "version": "0.5.3",
+      "severity": "Medium",
+      "fix_version": "0.8.5",
+      "description": "Improper Privilege Management in shelljs",
+      "cve": "",
+      "cvss": 0,
+      "references": null,
+      "affected_versions": [
+        "\u003c0.8.5 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-72xf-g2v4-qvf3",
+      "package_name": "tough-cookie",
+      "version": "2.5.0",
+      "severity": "Medium",
+      "fix_version": "4.1.3",
+      "description": "tough-cookie Prototype Pollution vulnerability",
+      "cve": "CVE-2023-26136",
+      "cvss": 6.5,
+      "references": [
+        "https://github.com/salesforce/tough-cookie/commit/12d474791bb856004e858fdb1c47b7608d09cf6e",
+        "https://github.com/salesforce/tough-cookie/issues/282",
+        "https://github.com/salesforce/tough-cookie/releases/tag/v4.1.3",
+        "https://lists.debian.org/debian-lts-announce/2023/07/msg00010.html",
+        "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/3HUE6ZR5SL73KHL7XUPAOEL6SB7HUDT2/",
+        "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PVVPNSAGSDS63HQ74PJ7MZ3MU5IYNVZ/",
+        "https://security.netapp.com/advisory/ntap-20240621-0006/",
+        "https://security.snyk.io/vuln/SNYK-JS-TOUGHCOOKIE-5672873",
+        "https://github.com/salesforce/tough-cookie/commit/12d474791bb856004e858fdb1c47b7608d09cf6e",
+        "https://github.com/salesforce/tough-cookie/issues/282",
+        "https://github.com/salesforce/tough-cookie/releases/tag/v4.1.3",
+        "https://lists.debian.org/debian-lts-announce/2023/07/msg00010.html",
+        "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/3HUE6ZR5SL73KHL7XUPAOEL6SB7HUDT2/",
+        "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PVVPNSAGSDS63HQ74PJ7MZ3MU5IYNVZ/",
+        "https://security.netapp.com/advisory/ntap-20240621-0006/",
+        "https://security.snyk.io/vuln/SNYK-JS-TOUGHCOOKIE-5672873"
+      ],
+      "affected_versions": [
+        "\u003c4.1.3 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-wr3j-pwj9-hqq6",
+      "package_name": "webpack-dev-middleware",
+      "version": "1.12.2",
+      "severity": "High",
+      "fix_version": "5.3.4",
+      "description": "Path traversal in webpack-dev-middleware",
+      "cve": "CVE-2024-29180",
+      "cvss": 7.4,
+      "references": [
+        "https://github.com/webpack/webpack-dev-middleware/blob/7ed24e0b9f53ad1562343f9f517f0f0ad2a70377/src/utils/getFilenameFromUrl.js#L82",
+        "https://github.com/webpack/webpack-dev-middleware/blob/7ed24e0b9f53ad1562343f9f517f0f0ad2a70377/src/utils/setupOutputFileSystem.js#L21",
+        "https://github.com/webpack/webpack-dev-middleware/commit/189c4ac7d2344ec132a4689e74dc837ec5be0132",
+        "https://github.com/webpack/webpack-dev-middleware/commit/9670b3495da518fe667ff3428c5e4cb9f2f3d353",
+        "https://github.com/webpack/webpack-dev-middleware/commit/e10008c762e4d5821ed6990348dabf0d4d93a10e",
+        "https://github.com/webpack/webpack-dev-middleware/releases/tag/v5.3.4",
+        "https://github.com/webpack/webpack-dev-middleware/releases/tag/v6.1.2",
+        "https://github.com/webpack/webpack-dev-middleware/releases/tag/v7.1.0",
+        "https://github.com/webpack/webpack-dev-middleware/security/advisories/GHSA-wr3j-pwj9-hqq6",
+        "https://github.com/webpack/webpack-dev-middleware/blob/7ed24e0b9f53ad1562343f9f517f0f0ad2a70377/src/utils/getFilenameFromUrl.js#L82",
+        "https://github.com/webpack/webpack-dev-middleware/blob/7ed24e0b9f53ad1562343f9f517f0f0ad2a70377/src/utils/setupOutputFileSystem.js#L21",
+        "https://github.com/webpack/webpack-dev-middleware/commit/189c4ac7d2344ec132a4689e74dc837ec5be0132",
+        "https://github.com/webpack/webpack-dev-middleware/commit/9670b3495da518fe667ff3428c5e4cb9f2f3d353",
+        "https://github.com/webpack/webpack-dev-middleware/commit/e10008c762e4d5821ed6990348dabf0d4d93a10e",
+        "https://github.com/webpack/webpack-dev-middleware/releases/tag/v5.3.4",
+        "https://github.com/webpack/webpack-dev-middleware/releases/tag/v6.1.2",
+        "https://github.com/webpack/webpack-dev-middleware/releases/tag/v7.1.0",
+        "https://github.com/webpack/webpack-dev-middleware/security/advisories/GHSA-wr3j-pwj9-hqq6"
+      ],
+      "affected_versions": [
+        "\u003c=5.3.3 (unknown)"
+      ]
+    },
+    {
+      "id": "GHSA-cf66-xwfp-gvc4",
+      "package_name": "webpack-dev-server",
+      "version": "1.16.5",
+      "severity": "High",
+      "fix_version": "3.1.11",
+      "description": "Missing Origin Validation in webpack-dev-server",
+      "cve": "CVE-2018-14732",
+      "cvss": 7.5,
+      "references": [
+        "https://blog.cal1.cn/post/Sniffing%20Codes%20in%20Hot%20Module%20Reloading%20Messages",
+        "https://github.com/webpack/webpack-dev-server/commit/f18e5adf123221a1015be63e1ca2491ca45b8d10",
+        "https://github.com/webpack/webpack-dev-server/issues/1445",
+        "https://blog.cal1.cn/post/Sniffing%20Codes%20in%20Hot%20Module%20Reloading%20Messages",
+        "https://github.com/webpack/webpack-dev-server/commit/f18e5adf123221a1015be63e1ca2491ca45b8d10",
+        "https://github.com/webpack/webpack-dev-server/issues/1445"
+      ],
+      "affected_versions": [
+        "\u003c3.1.11 (unknown)"
+      ]
+    }
+  ]
+}
