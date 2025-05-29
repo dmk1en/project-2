@@ -56,7 +56,7 @@ npm install
 ### 2. Build the Backend Binary (in Linux)
 
 ```sh
-cd ../back_end
+cd back_end
 go build -o sbom-backend
 ```
 
